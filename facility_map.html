@@ -1,0 +1,455 @@
+<!-- Facility Map -->
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Eden Recyclers HQ - Facility Map</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .status-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .map-container {
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .zone-card:hover .zone-overlay {
+            opacity: 0.1;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#93fa7f",
+                      "inverse-on-surface": "#eef1f3",
+                      "inverse-primary": "#78dd66",
+                      "surface-tint": "#006e03",
+                      "secondary-container": "#fdc39a",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#f1f4f6",
+                      "on-secondary-fixed-variant": "#653d1e",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-container": "#fefcff",
+                      "on-surface-variant": "#3f4a3b",
+                      "secondary-fixed-dim": "#f4bb92",
+                      "tertiary-fixed-dim": "#bcc7dd",
+                      "surface-variant": "#e0e3e5",
+                      "inverse-surface": "#2d3133",
+                      "surface": "#f7fafc",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-tertiary-fixed": "#111c2c",
+                      "on-primary-fixed-variant": "#005302",
+                      "tertiary": "#515c70",
+                      "surface-container-lowest": "#ffffff",
+                      "background": "#f7fafc",
+                      "outline": "#6f7a69",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#3c475a",
+                      "on-secondary-container": "#794e2e",
+                      "surface-dim": "#d7dadc",
+                      "tertiary-fixed": "#d8e3fa",
+                      "on-error-container": "#93000a",
+                      "surface-container": "#ebeef0",
+                      "primary-container": "#1f8719",
+                      "secondary": "#805533",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#78dd66",
+                      "primary": "#006c03",
+                      "on-primary-fixed": "#002200",
+                      "surface-container-high": "#e5e9eb",
+                      "on-secondary": "#ffffff",
+                      "outline-variant": "#becab6",
+                      "on-surface": "#181c1e",
+                      "on-primary-container": "#f8ffef",
+                      "secondary-fixed": "#ffdcc5",
+                      "surface-bright": "#f7fafc",
+                      "on-secondary-fixed": "#301400",
+                      "tertiary-container": "#6a7589",
+                      "on-background": "#181c1e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "md": "16px",
+                      "container-max": "1440px",
+                      "margin": "24px",
+                      "xl": "32px",
+                      "lg": "24px",
+                      "gutter": "16px",
+                      "xs": "8px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+
+<!-- Core Application Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=20260531-hardening1"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/state.js"></script>
+<script src="js/auth.js?v=20260531-hardening1"></script>
+<script src="js/routes/facility/page.js?v=20260531-facility14"></script>
+<script>window.addEventListener('load', function(){ if (window.bindFacilityPage) window.bindFacilityPage(); });</script>
+<script src="js/router.js?v=20260531-logo-link2"></script>
+<script src="js/utils.js?v=20260531-hardening1"></script>
+<script src="js/components/toast.js?v=20260531-xss1"></script>
+<script src="js/components/modal.js?v=20260531-xss1"></script>
+<script src="js/components/table.js?v=20260531-xss1"></script>
+<script src="js/components/charts.js"></script>
+<script src="js/notifications.js?v=20260531-hardening2"></script>
+<script src="js/modules/collection.js?v=20260531-workflow1"></script>
+<script src="js/modules/inventory.js?v=20260601-stock-ledger1"></script>
+<script src="js/modules/production.js?v=20260531-backend1"></script>
+<script src="js/modules/hr.js"></script>
+<script src="js/modules/finance.js?v=20260531-backend1"></script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline">
+<div class="flex justify-between items-center px-margin h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center">
+<img alt="Eden Recyclers" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTlqFneLJhbqgUC9cH9fx-a-vsGKfXrk-XV_zhQaFlf5OEuHvf-KkNworSqIPfX2LQaRTMGPt0E48cAmX77sIpa_KBCTnJTKALsVb12Elli9F5dxgBDYCVtxXswLrgx28rxEAx7PzosU0H3YVkXkwYeqvcVxzDOQ0seXD6s8r1iDZA8mx3H3muVez6sTiv7TzZXISyC5nhxvNU0MOBkP6hzEHVyz0GfbOUaCWJaKAGqkMeMf4DXq_On3VsTXwaq4IjnABLNcCwh6S4">
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex gap-lg">
+<button class="font-label-md text-label-md text-primary font-bold hover:bg-surface-container-low transition-colors px-xs py-base rounded">Facility Map</button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-xs py-base rounded">Waste Collection</button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-xs py-base rounded">Inventory</button>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional portrait of a senior facility manager wearing a clean, modern high-visibility vest and a focused expression. The background is a blurred high-tech recycling control room with multiple monitors displaying data visualizations. The lighting is crisp and cool, reflecting a clean industrial aesthetic with subtle green accents. The overall atmosphere is one of corporate efficiency and environmental expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUHkllck56-KpROwQvDaXhuD7cVgeDSKuCVssXyE2oR19JU2pr_Jr7UaiO2spC-68Y786yGLv0us9CV65eGtkk6KquuSnlmPIPGXl6dObRRb8VYSLdVNDwHmD_bD93obQsJiCXW9ZFR6YvPNzHdvVryrh39rl-Fx9IyNwYPwrbXRfzS5oUK7lOPUovF5q8UKPLdhm4KaDCi-vkJ_ANEzx1Bdngd0a2NAsp4wZJJsqQsd7AtBaASiy9Z9mjL4EKLJiT3HpApFweGL5y">
+</div>
+</div>
+</div>
+</header>
+<div class="flex pt-16 min-h-screen">
+<!-- NavigationDrawer (Desktop) -->
+<aside class="hidden lg:flex flex-col py-lg gap-base h-[calc(100vh-64px)] w-80 bg-surface-container-low dark:bg-surface-container-lowest sticky top-16 border-r border-outline-variant">
+<div class="px-lg pb-md border-b border-outline-variant mb-md">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Operational Lead</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Eden Recyclers HQ</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto space-y-1">
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="recycling">recycling</span>
+<span class="font-label-md text-label-md">Waste Collection</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="warehouse">warehouse</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+<span class="font-label-md text-label-md">Production</span>
+</a>
+<a class="flex items-center gap-md bg-primary-container text-on-primary-container font-bold rounded-full mx-2 py-3 px-4" href="#">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+<span class="font-label-md text-label-md">Infrastructure</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-md text-label-md">Sales &amp; Distribution</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">HR</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-label-md text-label-md">Finance</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</nav>
+<div class="px-lg pt-md border-t border-outline-variant">
+<span class="text-xs text-on-surface-variant opacity-60">v2.4.0</span>
+</div>
+</aside>
+<!-- Main Content (Canvas) -->
+<main class="flex-1 p-md lg:p-xl max-w-container-max mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-xs">Facility Map</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Real-time spatial visualization of Eden Recyclers HQ operations. Monitor machinery health and personnel deployment across high-density operational zones.</p>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-sm bg-primary text-on-primary rounded-xl font-bold shadow-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+<span class="font-label-md text-label-md">Export Layout</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bento Grid Dashboard -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Main Map Visualizer (Bento Large) -->
+<div class="lg:col-span-9 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden relative min-h-[600px] flex flex-col">
+<!-- Map Toolbar -->
+<div class="p-md bg-surface border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-md">
+<h3 class="font-headline-sm text-headline-sm">HQ Layout Level 01</h3>
+<div class="flex border border-outline-variant rounded-lg overflow-hidden">
+<button class="px-sm py-xs bg-surface-container-high text-primary font-bold border-r border-outline-variant">2D Plan</button>
+<button class="px-sm py-xs text-on-surface-variant hover:bg-surface-container-low transition-colors">Heatmap</button>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="w-10 h-10 rounded-lg border border-outline-variant flex items-center justify-center hover:bg-surface-container-low"><span class="material-symbols-outlined" data-icon="zoom_in">zoom_in</span></button>
+<button class="w-10 h-10 rounded-lg border border-outline-variant flex items-center justify-center hover:bg-surface-container-low"><span class="material-symbols-outlined" data-icon="zoom_out">zoom_out</span></button>
+<button class="w-10 h-10 rounded-lg border border-outline-variant flex items-center justify-center hover:bg-surface-container-low"><span class="material-symbols-outlined" data-icon="fullscreen">fullscreen</span></button>
+</div>
+</div>
+<!-- Interactive Map Component -->
+<div class="flex-1 map-container relative p-md">
+<!-- SVG / Abstract Layout -->
+<div class="relative w-full h-full border-2 border-dashed border-outline-variant rounded-lg bg-surface-container-low overflow-hidden">
+<!-- Zone: Collection Bay -->
+<div class="absolute top-[5%] left-[5%] w-[30%] h-[40%] bg-surface-container border-2 border-primary-container rounded-xl flex items-center justify-center group cursor-pointer zone-card" id="zone-collection">
+<div class="absolute inset-0 bg-primary opacity-0 zone-overlay transition-opacity"></div>
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-primary mb-xs" data-icon="local_shipping">local_shipping</span>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Collection Bay</p>
+<span class="inline-block mt-xs px-xs py-[2px] bg-primary-fixed text-on-primary-fixed-variant rounded text-[10px] font-bold">OPTIMAL</span>
+</div>
+<!-- Status Marker -->
+<div class="absolute top-2 right-2 w-3 h-3 bg-primary-fixed rounded-full status-pulse"></div>
+</div>
+<!-- Zone: Sorting Area -->
+<div class="absolute top-[5%] left-[40%] w-[55%] h-[25%] bg-surface-container border-2 border-secondary rounded-xl flex items-center justify-center group cursor-pointer zone-card" id="zone-sorting">
+<div class="absolute inset-0 bg-secondary opacity-0 zone-overlay transition-opacity"></div>
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-secondary mb-xs" data-icon="category">category</span>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Sorting Area</p>
+<span class="inline-block mt-xs px-xs py-[2px] bg-secondary-fixed text-on-secondary-fixed rounded text-[10px] font-bold">IN PROGRESS</span>
+</div>
+<!-- Status Marker -->
+<div class="absolute top-2 right-2 w-3 h-3 bg-secondary rounded-full"></div>
+</div>
+<!-- Zone: Production Line -->
+<div class="absolute top-[35%] left-[40%] w-[55%] h-[40%] bg-surface-container border-2 border-error rounded-xl flex items-center justify-center group cursor-pointer zone-card" id="zone-production">
+<div class="absolute inset-0 bg-error opacity-0 zone-overlay transition-opacity"></div>
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-error mb-xs" data-icon="factory">factory</span>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Production Line</p>
+<span class="inline-block mt-xs px-xs py-[2px] bg-error-container text-on-error-container rounded text-[10px] font-bold">CRITICAL ALERT</span>
+</div>
+<!-- Status Marker -->
+<div class="absolute top-2 right-2 w-3 h-3 bg-error rounded-full status-pulse shadow-[0_0_8px_rgba(186,26,26,0.6)]"></div>
+</div>
+<!-- Zone: Storage -->
+<div class="absolute top-[50%] left-[5%] w-[30%] h-[45%] bg-surface-container border-2 border-tertiary rounded-xl flex items-center justify-center group cursor-pointer zone-card" id="zone-storage">
+<div class="absolute inset-0 bg-tertiary opacity-0 zone-overlay transition-opacity"></div>
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-tertiary mb-xs" data-icon="inventory_2">inventory_2</span>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Storage</p>
+<span class="inline-block mt-xs px-xs py-[2px] bg-tertiary-fixed text-on-tertiary-fixed rounded text-[10px] font-bold">MAINTENANCE REQ.</span>
+</div>
+<!-- Status Marker -->
+<div class="absolute top-2 right-2 w-3 h-3 bg-tertiary rounded-full"></div>
+</div>
+<!-- Zone: Admin -->
+<div class="absolute top-[80%] left-[40%] w-[55%] h-[15%] bg-surface-container border-2 border-outline rounded-xl flex items-center justify-center group cursor-pointer zone-card" id="zone-admin">
+<div class="absolute inset-0 bg-outline opacity-0 zone-overlay transition-opacity"></div>
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-outline mb-xs" data-icon="corporate_fare">corporate_fare</span>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Admin &amp; Support</p>
+</div>
+</div>
+<!-- Machinery Status Dots (Overlay) -->
+<div class="absolute top-[15%] left-[20%] w-2 h-2 bg-primary rounded-full" title="Baler 01"></div>
+<div class="absolute top-[25%] left-[10%] w-2 h-2 bg-primary rounded-full" title="Forklift Charging"></div>
+<div class="absolute top-[45%] left-[60%] w-2 h-2 bg-error rounded-full status-pulse opacity-50" title="Crusher Malfunction"></div>
+</div>
+</div>
+</div>
+<!-- Sidebar Info (Bento Narrow) -->
+<div class="lg:col-span-3 space-y-xl">
+<!-- Legend Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<h4 class="font-headline-sm text-headline-sm mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="legend_toggle">legend_toggle</span>
+                            Map Legend
+                        </h4>
+<div class="space-y-sm">
+<div class="flex items-center justify-between p-xs bg-surface rounded">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-primary-fixed"></div>
+<span class="font-label-md text-label-md">Optimal</span>
+</div>
+<span class="text-xs font-bold text-primary">84%</span>
+</div>
+<div class="flex items-center justify-between p-xs bg-surface rounded">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-tertiary"></div>
+<span class="font-label-md text-label-md">Maintenance Required</span>
+</div>
+<span class="text-xs font-bold text-tertiary">12%</span>
+</div>
+<div class="flex items-center justify-between p-xs bg-surface rounded">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-error status-pulse"></div>
+<span class="font-label-md text-label-md">Critical Alert</span>
+</div>
+<span class="text-xs font-bold text-error">4%</span>
+</div>
+</div>
+</div>
+<!-- Machinery Details Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+<h4 class="font-headline-sm text-headline-sm mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="monitor_heart">monitor_heart</span>
+                            Machinery Status
+                        </h4>
+<div class="space-y-md">
+<div class="border-b border-outline-variant pb-sm">
+<div class="flex justify-between items-start mb-base">
+<span class="font-label-md text-label-md text-on-surface font-bold">Plastic Shredder PX-4</span>
+<span class="text-[10px] bg-error-container text-on-error-container px-xs rounded font-bold">CRITICAL</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-xs">Motor overheating in Production Zone B.</p>
+<div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[95%]"></div>
+</div>
+</div>
+<div class="border-b border-outline-variant pb-sm">
+<div class="flex justify-between items-start mb-base">
+<span class="font-label-md text-label-md text-on-surface font-bold">Hydraulic Baler</span>
+<span class="text-[10px] bg-primary-fixed text-on-primary-fixed-variant px-xs rounded font-bold">OPTIMAL</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-xs">Operating at 85% capacity.</p>
+<div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[40%]"></div>
+</div>
+</div>
+<div>
+<button class="w-full py-sm border-2 border-outline-variant rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                                    View Diagnostics Report
+                                </button>
+</div>
+</div>
+</div>
+<!-- Personnel Heatmap Mini-Card -->
+<div class="bg-primary-container text-on-primary-container rounded-xl p-lg shadow-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-white opacity-5 rounded-full -mr-12 -mt-12 group-hover:scale-125 transition-transform duration-500"></div>
+<h4 class="font-headline-sm text-headline-sm mb-base">Personnel Count</h4>
+<p class="text-3xl font-bold mb-xs">42 <span class="text-sm font-normal opacity-80">on-site</span></p>
+<div class="flex items-center gap-xs text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="groups">groups</span>
+<span class="">Highest density: Sorting Area</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Action Row -->
+<div class="mt-xl grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="bg-surface-container-high rounded-xl p-md flex items-center gap-md hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<div>
+<span class="font-label-md text-label-md block font-bold">Safety Override</span>
+<span class="text-xs opacity-70">Immediate lockdown protocol</span>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-xl p-md flex items-center gap-md hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="light_mode">light_mode</span>
+</div>
+<div>
+<span class="font-label-md text-label-md block font-bold">Lighting Control</span>
+<span class="text-xs opacity-70">Facility lumens: 100% active</span>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-xl p-md flex items-center gap-md hover:bg-surface-container-highest transition-colors cursor-pointer">
+<div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="router">router</span>
+</div>
+<div>
+<span class="font-label-md text-label-md block font-bold">IoT Network</span>
+<span class="text-xs opacity-70">128 nodes connected</span>
+</div>
+</div>
+</div>
+<!-- Spacer for padding below fixed navbar -->
+<div class="h-32"></div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-surface dark:bg-surface-dim border-t border-outline-variant shadow-md z-50 rounded-t-full">
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-sm text-label-sm">Collect</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm">Stock</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="factory">factory</span>
+<span class="font-label-sm text-label-sm">Process</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+<span class="font-label-sm text-label-sm">More</span>
+</button>
+</nav>
+</body></html>

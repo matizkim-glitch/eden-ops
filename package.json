@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "test": "node tests/regression.test.js && node tests/production-validation.test.js && node smoke-test.js",
+    "test:production-validation": "node tests/production-validation.test.js"
+  }
+}

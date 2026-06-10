@@ -1,0 +1,578 @@
+<!-- Production & Quality Control -->
+<!DOCTYPE html>
+
+<html class="light" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Production Module | Eden Recyclers</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#becab6",
+                        "secondary-fixed": "#ffdcc5",
+                        "primary-fixed-dim": "#78dd66",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "outline": "#6f7a69",
+                        "on-secondary-container": "#794e2e",
+                        "inverse-surface": "#2d3133",
+                        "error-container": "#ffdad6",
+                        "secondary": "#805533",
+                        "on-surface": "#181c1e",
+                        "on-tertiary-container": "#fefcff",
+                        "on-surface-variant": "#3f4a3b",
+                        "surface-container-high": "#e5e9eb",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#653d1e",
+                        "on-primary-fixed": "#002200",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed": "#301400",
+                        "inverse-on-surface": "#eef1f3",
+                        "surface-container": "#ebeef0",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#006e03",
+                        "surface": "#f7fafc",
+                        "inverse-primary": "#78dd66",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "on-background": "#181c1e",
+                        "surface-bright": "#f7fafc",
+                        "tertiary-fixed-dim": "#bcc7dd",
+                        "surface-dim": "#d7dadc",
+                        "tertiary-container": "#6a7589",
+                        "on-tertiary-fixed": "#111c2c",
+                        "surface-container-low": "#f1f4f6",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#fdc39a",
+                        "primary-container": "#1f8719",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#f4bb92",
+                        "background": "#f7fafc",
+                        "tertiary": "#515c70",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "primary-fixed": "#93fa7f",
+                        "tertiary-fixed": "#d8e3fa",
+                        "primary": "#006c03",
+                        "on-primary-fixed-variant": "#005302",
+                        "on-primary-container": "#f8ffef"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "gutter": "16px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "sm": "12px",
+                        "md": "16px",
+                        "margin": "24px",
+                        "xs": "8px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+
+<!-- Core Application Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=20260531-hardening1"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/state.js"></script>
+<script src="js/auth.js?v=20260531-hardening1"></script>
+<script src="js/router.js?v=20260531-logo-link2"></script>
+<script src="js/utils.js?v=20260531-hardening1"></script>
+<script src="js/components/toast.js?v=20260531-xss1"></script>
+<script src="js/components/modal.js?v=20260531-xss1"></script>
+<script src="js/components/table.js?v=20260531-xss1"></script>
+<script src="js/components/charts.js"></script>
+<script src="js/notifications.js?v=20260531-hardening2"></script>
+<script src="js/modules/inventory.js?v=20260601-stock-ledger1"></script>
+<script src="js/modules/production.js?v=20260531-backend1"></script>
+<script src="js/routes/production/page.js?v=20260531-inbox-session"></script>
+</head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant">
+<div class="flex justify-between items-center px-margin h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-base"><img alt="Eden Recyclers" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPT9SaoNNOG29X4l9AFEHMJt3jLgwTvaAyoZaMiqrvcfRFQZOazJ-0GV6Ekuo4CFZLz5Ax3JVHELh9hBC8nlWPVXJM8424wpvF3M6J06jtADB7hN2oQq8U8_52TYSaqlkTg0Ee8fuNtBgxssbp0sCGLXGNwBs-G5HQcnsrN4YNS1CLRQtLLW8GP96Rf5TXDWymkAr1sVleH4W7EQ_GEmXCdDG92L77sNdC1rbdtTLcdM4ocCy1mRnT34E7537TZlrVd7R0RrnRgV-Y"/></div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex gap-md items-center">
+<button class="font-label-md text-label-md text-primary font-bold px-base">Production</button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-base py-1 rounded">Inventory</button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-base py-1 rounded">Analytics</button>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="User" class="w-full h-full object-cover" data-alt="A professional headshot of a facility operations manager in a high-tech recycling plant. The person is wearing a clean industrial uniform with the Eden Recyclers logo. The background features blurred industrial machinery and soft, cool-toned studio lighting, creating a trustworthy and competent corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY4hDHerNJdR6l0EuH5Y9XBlvll0kfPwkr3TadsEktESCjhm5eLwIkOveFtzf64B14WhoeuWviyyLht-Z0Ltur9MFUx-3_VJIvglqbQ29Pddq9EmImLnZTEYBS5IbbZuSv2rFrc2rG-C1_xob_40VEmkaj2l-FOvP_FvyikJ9IujeE8_2oS7KpEI4L3BTkn-09HQGTYyRdiOkMnLYwtyVYtify13jcqFspWe9AOM_y8hB0SLg8udcxQJdAt6MjBYsqaJ_u1qbZbi7K"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen pt-16 pb-20 md:pb-0">
+<!-- NavigationDrawer (Desktop Only) -->
+<aside class="hidden lg:flex flex-col w-80 bg-surface-container-low border-r border-outline-variant p-lg gap-base sticky top-16 h-[calc(100vh-64px)] overflow-y-auto">
+<div class="flex flex-col gap-xs mb-lg">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest px-md">Operational Control</p>
+</div>
+<nav class="flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">recycling</span>
+<span class="font-label-md text-label-md">Waste Collection</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">warehouse</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 bg-primary-container text-on-primary-container font-bold rounded-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+<span class="font-label-md text-label-md">Production</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-md text-label-md">Sales &amp; Distribution</span>
+</a>
+<div class="my-md border-t border-outline-variant"></div>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors" href="#">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-md text-label-md">Infrastructure</span>
+</a>
+</nav>
+<div class="mt-auto p-md bg-surface-container rounded-xl">
+<p class="font-headline-sm text-headline-sm text-primary">Operational Lead</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Eden Recyclers HQ</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-sm">v2.4.0</p>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-gutter md:p-xl overflow-x-hidden">
+<header class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Production Console</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Real-time oversight of manufacturing lines and material conversion.</p>
+</div>
+<div class="flex gap-md">
+<button class="bg-primary text-on-primary font-bold px-lg py-2 rounded-xl flex items-center gap-xs shadow-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-md text-label-md">New Production Batch</span>
+</button>
+</div>
+</header>
+<!-- Production Bento Grid -->
+<div class="bento-grid">
+<!-- Machine Status Section (4 Columns) -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-md">
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col h-full">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">sensors</span>
+                                Real-time Machine Status
+                            </h3>
+<span class="font-label-sm text-label-sm bg-primary-fixed-dim text-on-primary-fixed px-xs py-0.5 rounded-full">LIVE</span>
+</div>
+<div class="flex flex-col gap-sm">
+<!-- Machine Item -->
+<div class="flex items-center justify-between p-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-md">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<div>
+<p class="font-label-md text-label-md">Hydraulic Press A1</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Converting: Mixed HDPE</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">ACTIVE</span>
+</div>
+<!-- Machine Item -->
+<div class="flex items-center justify-between p-sm bg-surface-container-low rounded-lg">
+<div class="flex items-center gap-md">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<div>
+<p class="font-label-md text-label-md">Extruder Unit B-04</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Converting: PP Pellets</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">ACTIVE</span>
+</div>
+<!-- Machine Item Idle -->
+<div class="flex items-center justify-between p-sm bg-surface-container-low rounded-lg opacity-60">
+<div class="flex items-center gap-md">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<div>
+<p class="font-label-md text-label-md">Tile Mold C7</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cooling Cycle</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">IDLE</span>
+</div>
+<!-- Machine Item Error -->
+<div class="flex items-center justify-between p-sm border border-error-container bg-error-container/20 rounded-lg">
+<div class="flex items-center gap-md">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<div>
+<p class="font-label-md text-label-md">Crusher 02</p>
+<p class="font-body-sm text-body-sm text-error">Maintenance Required</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-error font-bold">ALERT</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Daily Output Chart (8 Columns) -->
+<section class="col-span-12 lg:col-span-8">
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm h-full">
+<div class="flex justify-between items-center mb-lg">
+<div>
+<h3 class="font-headline-sm text-headline-sm">Output Trends</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Daily production volume per product line</p>
+</div>
+<div class="flex gap-base">
+<button class="px-md py-1 border border-outline-variant rounded-full text-label-sm font-label-sm hover:bg-surface-container-low transition-colors">Weekly</button>
+<button class="px-md py-1 bg-secondary text-on-secondary rounded-full text-label-sm font-label-sm">Daily</button>
+</div>
+</div>
+<!-- Mock Chart -->
+<div class="h-64 flex items-end gap-md px-md pt-md relative">
+<div class="absolute inset-x-0 bottom-0 h-px bg-outline-variant"></div>
+<!-- Bar 1 -->
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-primary-container rounded-t-lg transition-all duration-500 group-hover:brightness-110" style="height: 60%"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Pavers</span>
+</div>
+<!-- Bar 2 -->
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-secondary-container rounded-t-lg transition-all duration-500 group-hover:brightness-110" style="height: 85%"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Roof Tiles</span>
+</div>
+<!-- Bar 3 -->
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-tertiary-container rounded-t-lg transition-all duration-500 group-hover:brightness-110" style="height: 45%"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Fencing</span>
+</div>
+<!-- Bar 4 -->
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-primary-container rounded-t-lg transition-all duration-500 group-hover:brightness-110" style="height: 70%"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Blocks</span>
+</div>
+<!-- Bar 5 -->
+<div class="flex-1 flex flex-col items-center gap-sm group">
+<div class="w-full bg-secondary-container rounded-t-lg transition-all duration-500 group-hover:brightness-110" style="height: 30%"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Furniture</span>
+</div>
+</div>
+<div class="mt-lg grid grid-cols-2 md:grid-cols-4 gap-md border-t border-outline-variant pt-md">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">TOTAL OUTPUT</p>
+<p class="font-headline-md text-headline-md text-primary">12.4 Tons</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">EFFICIENCY</p>
+<p class="font-headline-md text-headline-md text-primary">94.2%</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">QUALITY PASS</p>
+<p class="font-headline-md text-headline-md text-primary">98.8%</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">DOWNTIME</p>
+<p class="font-headline-md text-headline-md text-secondary">42m</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Quality Control Checklist (5 Columns) -->
+<section class="col-span-12 lg:col-span-5">
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm h-full flex flex-col">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary">verified</span>
+                                Shift Quality Control
+                            </h3>
+<button class="text-primary font-label-md text-label-md hover:underline">View All</button>
+</div>
+<div class="space-y-sm">
+<label class="flex items-start gap-md p-sm hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
+<input checked="" class="mt-1 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<div>
+<p class="font-label-md text-label-md group-hover:text-primary">Verify Molten Temperature</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Check sensor reading for Batch #402</p>
+</div>
+</label>
+<label class="flex items-start gap-md p-sm hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
+<input checked="" class="mt-1 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<div>
+<p class="font-label-md text-label-md group-hover:text-primary">Inspect Paver Edge Density</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Sample 5 units from Line 2</p>
+</div>
+</label>
+<label class="flex items-start gap-md p-sm hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
+<input class="mt-1 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<div>
+<p class="font-label-md text-label-md group-hover:text-primary">Cooling Cycle Calibration</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Adjust timer for optimal structural set</p>
+</div>
+</label>
+<label class="flex items-start gap-md p-sm hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
+<input class="mt-1 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<div>
+<p class="font-label-md text-label-md group-hover:text-primary">Material Contamination Sweep</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ensure zero metal fragments in hopper</p>
+</div>
+</label>
+</div>
+<button class="mt-auto w-full py-2 border-2 border-dashed border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+                            + Add Quality Checkpoint
+                        </button>
+</div>
+</section>
+<!-- Raw Material Inventory (7 Columns) -->
+<section class="col-span-12 lg:col-span-7">
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm h-full">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-sm text-headline-sm">Material Inventory Status</h3>
+<button class="flex items-center gap-xs font-label-md text-label-md text-primary bg-primary-fixed-dim/20 px-md py-1 rounded-full">
+<span class="material-symbols-outlined text-sm">refresh</span> Sync ERP
+                            </button>
+</div>
+<div class="overflow-x-auto no-scrollbar">
+<table class="w-full text-left">
+<thead class="bg-surface-container text-on-surface-variant border-b border-outline-variant">
+<tr>
+<th class="px-md py-sm font-label-md text-label-md">MATERIAL TYPE</th>
+<th class="px-md py-sm font-label-md text-label-md">STOCK (KG)</th>
+<th class="px-md py-sm font-label-md text-label-md">CAPACITY</th>
+<th class="px-md py-sm font-label-md text-label-md">STATUS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr>
+<td class="px-md py-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<p class="font-label-md text-label-md">HDPE Flakes (Post-Cons)</p>
+</div>
+</td>
+<td class="px-md py-md font-body-md text-body-md">4,250</td>
+<td class="px-md py-md">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 82%"></div>
+</div>
+</td>
+<td class="px-md py-md">
+<span class="bg-primary-fixed-dim text-on-primary-fixed px-xs py-0.5 rounded text-label-sm font-label-sm uppercase">Optimal</span>
+</td>
+</tr>
+<tr>
+<td class="px-md py-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">package</span>
+</div>
+<p class="font-label-md text-label-md">PP Regrind (Industrial)</p>
+</div>
+</td>
+<td class="px-md py-md font-body-md text-body-md">1,120</td>
+<td class="px-md py-md">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 25%"></div>
+</div>
+</td>
+<td class="px-md py-md">
+<span class="bg-secondary-fixed text-on-secondary-fixed px-xs py-0.5 rounded text-label-sm font-label-sm uppercase">Low Stock</span>
+</td>
+</tr>
+<tr>
+<td class="px-md py-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">opacity</span>
+</div>
+<p class="font-label-md text-label-md">Additives &amp; Pigments</p>
+</div>
+</td>
+<td class="px-md py-md font-body-md text-body-md">840</td>
+<td class="px-md py-md">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 68%"></div>
+</div>
+</td>
+<td class="px-md py-md">
+<span class="bg-primary-fixed-dim text-on-primary-fixed px-xs py-0.5 rounded text-label-sm font-label-sm uppercase">Steady</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- High-Impact Image Card (Asymmetric Layout) -->
+<section class="col-span-12 flex flex-col gap-md">
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm">
+<div class="mb-lg">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary">account_tree</span>
+                Production Workflow
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Streamlined batch monitoring and quality verification</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<!-- Batch Tracking -->
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md text-on-surface-variant uppercase border-b border-outline-variant pb-xs">Active Batch Tracking</h4>
+<div class="bg-surface-container-low p-md rounded-lg space-y-sm">
+<div class="flex justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Production ID</span>
+<span class="font-label-md text-label-md font-bold">#PRD-2023-981</span>
+</div>
+<div class="flex justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Start Date</span>
+<span class="font-label-md text-label-md">2023-11-20</span>
+</div>
+<div class="flex justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Batch No.</span>
+<span class="font-label-md text-label-md">B-8802-Z</span>
+</div>
+</div>
+</div>
+<!-- Productivity Metrics -->
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md text-on-surface-variant uppercase border-b border-outline-variant pb-xs">Productivity Metrics</h4>
+<div class="grid grid-cols-2 gap-sm">
+<div class="bg-primary-container/10 p-md rounded-lg text-center">
+<p class="font-label-sm text-label-sm text-primary uppercase">Output / Hr</p>
+<p class="font-headline-md text-headline-md text-primary">450kg</p>
+</div>
+<div class="bg-secondary-container/10 p-md rounded-lg text-center">
+<p class="font-label-sm text-label-sm text-secondary uppercase">Efficiency</p>
+<p class="font-headline-md text-headline-md text-secondary">96.4%</p>
+</div>
+</div>
+</div>
+<!-- Packaging/QC Checklist -->
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md text-on-surface-variant uppercase border-b border-outline-variant pb-xs">Packaging &amp; Quality</h4>
+<div class="space-y-xs">
+<label class="flex items-center gap-sm">
+<input class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Moisture Content Pass</span>
+</label>
+<label class="flex items-center gap-sm">
+<input class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Contaminant Visual Scan</span>
+</label>
+<label class="flex items-center gap-sm">
+<input class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Bag Seal Integrity</span>
+</label>
+<label class="flex items-center gap-sm">
+<input class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm">Weight Calibration</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</section><section class="col-span-12">
+<div class="relative overflow-hidden rounded-xl h-64 bg-inverse-surface flex items-center p-xl shadow-lg border border-outline">
+<img class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay" data-alt="A macro cinematic view of high-density recycled plastic pellets being processed in a modern clean-tech facility. The lighting is crisp and cool, emphasizing the textures of the green and grey materials. The background shows professional industrial automation equipment in soft focus, representing sustainable and precise manufacturing excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU7WFeDueNGOJccbd6u0irkLgzVWvcbq4lrLH1E3QBHz_RlSZhlpIz-PXGRj6_NF62xS7gdRc4_Ugz7d8VAa6K3sIi0wjBD5Q25g4npBScQKsiU1qWKCbXJtUvAMikxa1WT2z8WQ-UcyDizwkaE66kZ79sJ0DOcivp2d3giDUe85-YQfcdHi-I65W_evvZjRZO5XtVRLsNwIDqmJDS3IqmUhMN6dn__PHlFcrH-huOReBtLcgSTMD33Kjhet2R4LKdMvpQ7HmnT5xR"/>
+<div class="relative z-10 max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg text-white mb-base">Sustainable Transformation</h2>
+<p class="font-body-lg text-body-lg text-outline-variant mb-md">Our production lines have successfully converted over 450,000kg of ocean-bound plastics into durable construction materials this quarter. Track every granule of progress here.</p>
+<div class="flex gap-md">
+<button class="px-lg py-2 bg-primary text-on-primary font-bold rounded-xl shadow-md hover:scale-[1.02] transition-transform">Sustainability Report</button>
+<button class="px-lg py-2 border border-white text-white font-bold rounded-xl hover:bg-white/10 transition-colors">Line Diagnostics</button>
+</div>
+</div>
+<!-- Floating Data Widget -->
+<div class="absolute right-xl bottom-xl hidden md:block bg-white/10 backdrop-blur-md p-md rounded-xl border border-white/20">
+<p class="font-label-sm text-label-sm text-white/70 uppercase">Current Carbon Offset</p>
+<p class="font-headline-md text-headline-md text-white">4.2M Metric Tons</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-surface border-t border-outline-variant shadow-md z-50 rounded-t-full">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-sm text-label-sm">Collect</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-sm text-label-sm">Stock</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">factory</span>
+<span class="font-label-sm text-label-sm">Process</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined">more_horiz</span>
+<span class="font-label-sm text-label-sm">More</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction: Update time or machine status simulation
+        function updateUIMetrics() {
+            const timeEl = document.querySelector('.font-label-sm.text-on-primary-fixed');
+            // This is just a visual placeholder for interactivity
+            if(timeEl) {
+                const now = new Date();
+                // Simple toggle for the 'LIVE' pulse speed if desired
+            }
+        }
+        setInterval(updateUIMetrics, 5000);
+    </script>
+</body></html>

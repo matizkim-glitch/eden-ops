@@ -1,0 +1,361 @@
+<!-- Infrastructure & Facility -->
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Eden Recyclers | Infrastructure Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Shared Component Styling & Design System Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1f8719",
+                    "inverse-primary": "#78dd66",
+                    "background": "#f7fafc",
+                    "secondary-fixed": "#ffdcc5",
+                    "outline": "#6f7a69",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#181c1e",
+                    "tertiary-container": "#6a7589",
+                    "surface-container": "#ebeef0",
+                    "outline-variant": "#becab6",
+                    "on-secondary-fixed-variant": "#653d1e",
+                    "surface-dim": "#d7dadc",
+                    "error-container": "#ffdad6",
+                    "surface": "#f7fafc",
+                    "primary": "#006c03",
+                    "tertiary": "#515c70",
+                    "surface-container-high": "#e5e9eb",
+                    "secondary": "#805533",
+                    "surface-container-high": "#e5e9eb",
+                    "surface-container-low": "#f1f4f6",
+                    "on-tertiary-fixed": "#111c2c",
+                    "on-primary-container": "#f8ffef",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#3f4a3b",
+                    "error": "#ba1a1a",
+                    "on-tertiary-container": "#fefcff",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#f7fafc",
+                    "on-secondary-fixed": "#301400",
+                    "tertiary-fixed": "#d8e3fa",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#3c475a",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#eef1f3",
+                    "secondary-fixed-dim": "#f4bb92",
+                    "tertiary-fixed-dim": "#bcc7dd",
+                    "surface-variant": "#e0e3e5",
+                    "on-surface": "#181c1e",
+                    "on-primary-fixed-variant": "#005302",
+                    "inverse-surface": "#2d3133",
+                    "secondary-container": "#fdc39a",
+                    "on-secondary-container": "#794e2e",
+                    "on-primary-fixed": "#002200",
+                    "surface-tint": "#006e03",
+                    "primary-fixed-dim": "#78dd66",
+                    "primary-fixed": "#93fa7f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "sm": "12px",
+                    "container-max": "1440px",
+                    "xl": "32px",
+                    "xs": "8px",
+                    "margin": "24px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "label-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+
+<!-- Core Application Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=20260531-hardening1"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/state.js"></script>
+<script src="js/auth.js?v=20260531-hardening1"></script>
+<script src="js/router.js?v=20260531-logo-link2"></script>
+<script src="js/utils.js?v=20260531-hardening1"></script>
+<script src="js/components/toast.js?v=20260531-xss1"></script>
+<script src="js/components/modal.js?v=20260531-xss1"></script>
+<script src="js/components/table.js?v=20260531-xss1"></script>
+<script src="js/components/charts.js"></script>
+<script src="js/notifications.js?v=20260531-hardening2"></script>
+<script src="js/modules/finance.js?v=20260531-backend1"></script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant">
+<div class="flex justify-between items-center px-margin h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-xs"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEJspFmSFIfxIktLKL1eIpA-I-XPLW_YaQqVXa10vuqiz_GXR7gtGGmyPop-tzUGxBYVO5K6BH1j4fIDfS-Z4rLVuUyIQWVFQ9vf62glYa3MabCWmdV3S7aFut53mOY1cNr6ruToUZnGn3g-Wswv5DAqfW4ycSkbff9UIlDmPgRzIMrSq0kYgieBiV3J6qO4pGFlYNfNMbKk6CzPUgYdnvHh_prBunc6LUVNo65rXyOVFVbgA39PoiArrlrclaGXuvXz2QkkqkEd-J" alt="Eden Recyclers Logo" class="h-10 w-auto object-contain"></div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional portrait of a facility manager in a modern, sustainable office setting. He is wearing a clean industrial uniform with a subtle green logo. The lighting is bright and natural, reflecting a high-end corporate sustainability brand. The background shows a hint of a clean, high-tech recycling facility through glass windows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwQhQYIbhu5Kd2l6nzawt4hF_S0sc0z5-j5FbOgF3M9uzMw0p1s1BparCxIWY2IGZRQcNQrS8S2pk7jNaVcJqbFLzOULkQAW7YX6rtO1CJZG7-kipeQeadLqu1gY5hDoa89KhC_9UNVxo7XE5a7jYNxYskr_4zo5Ym0drdOm6MC_jFlW71ReqaW5gZQMhcsahACuCSFDrP6hN5wDCxpTjfIPFLP75HOrk230Ezr242WpI25RDk95DPu8ktgbCPuVV4o2WM_l8ZV_Tx">
+</div>
+</div>
+</header>
+<main class="pt-20 pb-24 px-md max-w-container-max mx-auto space-y-lg">
+<!-- Page Title & Header Section -->
+<section class="mt-md">
+<h2 class="font-headline-md text-headline-md text-on-surface">Infrastructure &amp; Facility</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Monitoring Eden HQ Industrial Assets</p>
+</section>
+<!-- Facility Health KPIs (Bento Style) -->
+<section class="grid grid-cols-2 gap-sm">
+<div class="col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Overall Uptime</span>
+<div class="font-headline-xl text-headline-xl text-primary mt-xs">98.4%</div>
+</div>
+<div class="bg-primary-container/10 p-xs rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="settings_suggest">settings_suggest</span>
+</div>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full mt-md overflow-hidden">
+<div class="bg-primary h-full" style="width: 98.4%"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Active Units</span>
+<div class="flex items-baseline gap-xs mt-xs">
+<span class="font-headline-md text-headline-md text-on-surface">12</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">/ 14</span>
+</div>
+<div class="flex items-center gap-xs mt-base">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="font-label-sm text-label-sm text-primary">High Efficiency</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Grid Status</span>
+<div class="mt-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary" data-icon="bolt">bolt</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Stable</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-secondary-container bg-secondary-container px-2 py-0.5 rounded-full mt-base inline-block">Hybrid Mode</span>
+</div>
+</section>
+<!-- Utility Monitoring -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-md">Utility Consumption</h3>
+<div class="space-y-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="solar_power">solar_power</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Solar Contribution</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">64% of total energy</span>
+</div>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">420 kWh</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="water_drop">water_drop</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Water Usage</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Treatment Plant A</span>
+</div>
+</div>
+<span class="font-headline-sm text-headline-sm text-tertiary">1.2k Gal</span>
+</div>
+</div>
+</section>
+<!-- Machinery Maintenance -->
+<section class="space-y-sm">
+<div class="flex justify-between items-end px-xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Machinery Fleet</h3>
+<button class="font-label-md text-label-md text-primary hover:opacity-80 transition-opacity">View All</button>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<!-- Item 1 -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant" style="background-color: transparent;">
+<div class="flex items-center gap-md">
+<div class="p-xs bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="conveyor_belt">conveyor_belt</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Conveyor Belt 2</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Last service: Oct 12</p>
+</div>
+</div>
+<span class="px-xs py-0.5 rounded bg-on-primary-container text-primary font-label-sm text-label-sm uppercase">Operational</span>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant">
+<div class="flex items-center gap-md">
+<div class="p-xs bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="precision_manufacturing">precision_manufacturing</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Extruder B-04</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Scheduled: Oct 28</p>
+</div>
+</div>
+<span class="px-xs py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase">Maint Due</span>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between p-md">
+<div class="flex items-center gap-md">
+<div class="p-xs bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="factory">factory</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Hydro Separator 1</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">System Alert: Temp</p>
+</div>
+</div>
+<span class="px-xs py-0.5 rounded bg-error-container text-error font-label-sm text-label-sm uppercase">Alert</span>
+</div>
+</div>
+</section>
+<!-- Digital Infrastructure -->
+<section class="bg-surface-container-low rounded-xl p-md border border-outline-variant">
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-md">Digital Health</h3>
+<div class="grid grid-cols-1 gap-sm">
+<div class="flex items-center justify-between p-sm bg-surface rounded-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="router">router</span>
+<span class="font-label-md text-label-md">Local Network</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">Online</span>
+</div>
+<div class="flex items-center justify-between p-sm bg-surface rounded-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="sync">sync</span>
+<span class="font-label-md text-label-md">ERP Sync Status</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">Synced (2m ago)</span>
+</div>
+<div class="flex items-center justify-between p-sm bg-surface rounded-lg">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="cloud_done">cloud_done</span>
+<span class="font-label-md text-label-md">Cloud Gateway</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">Secured</span>
+</div>
+</div>
+</section>
+<!-- Incident Logs -->
+<section class="pb-8">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-md px-xs">Incident &amp; Event Logs</h3>
+<div class="space-y-xs">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm flex gap-md">
+<div class="text-on-surface-variant pt-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Compressor A-2 Maintenance Completed</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Logged by Mike T. • 4 hours ago</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-sm flex gap-md">
+<div class="text-error pt-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="warning">warning</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Unusual Vibration: Sorting Arm 3</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Automatic Ticket #9822 Created • 6 hours ago</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- NavigationDrawer (Suppressed based on logic but structure kept for potential desktop view) -->
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-surface dark:bg-surface-dim border-t border-outline-variant z-50 shadow-md rounded-t-full">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-sm text-label-sm">Collect</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm">Stock</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="factory">factory</span>
+<span class="font-label-sm text-label-sm">Process</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</a>
+<!-- Active: Infrastructure usually falls under "More" or a deeper sub-tab, but for this specific view we treat it as an extension of management -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+<span class="font-label-sm text-label-sm">More</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for maintenance items
+        document.querySelectorAll('section div[class*="border-b"]').forEach(item => {
+            item.addEventListener('click', () => {
+                item.style.backgroundColor = 'rgba(0, 108, 3, 0.05)';
+                setTimeout(() => {
+                    item.style.backgroundColor = 'transparent';
+                }, 300);
+            });
+        });
+    </script>
+
+
+</body></html>

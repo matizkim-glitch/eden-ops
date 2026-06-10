@@ -1,0 +1,464 @@
+<!-- Operations Overview -->
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Eden Recyclers | Operations Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#becab6",
+                    "secondary-fixed": "#ffdcc5",
+                    "primary-fixed-dim": "#78dd66",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "outline": "#6f7a69",
+                    "on-secondary-container": "#794e2e",
+                    "inverse-surface": "#2d3133",
+                    "error-container": "#ffdad6",
+                    "secondary": "#805533",
+                    "on-surface": "#181c1e",
+                    "on-tertiary-container": "#fefcff",
+                    "on-surface-variant": "#3f4a3b",
+                    "surface-container-high": "#e5e9eb",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#653d1e",
+                    "on-primary-fixed": "#002200",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary-fixed": "#301400",
+                    "inverse-on-surface": "#eef1f3",
+                    "surface-container": "#ebeef0",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#006e03",
+                    "surface": "#f7fafc",
+                    "inverse-primary": "#78dd66",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e0e3e5",
+                    "on-background": "#181c1e",
+                    "surface-bright": "#f7fafc",
+                    "tertiary-fixed-dim": "#bcc7dd",
+                    "surface-dim": "#d7dadc",
+                    "tertiary-container": "#6a7589",
+                    "on-tertiary-fixed": "#111c2c",
+                    "surface-container-low": "#f1f4f6",
+                    "on-tertiary": "#ffffff",
+                    "secondary-container": "#fdc39a",
+                    "primary-container": "#1f8719",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed-dim": "#f4bb92",
+                    "background": "#f7fafc",
+                    "tertiary": "#515c70",
+                    "on-tertiary-fixed-variant": "#3c475a",
+                    "primary-fixed": "#93fa7f",
+                    "tertiary-fixed": "#d8e3fa",
+                    "primary": "#006c03",
+                    "on-primary-fixed-variant": "#005302",
+                    "on-primary-container": "#f8ffef"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "gutter": "16px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "sm": "12px",
+                    "md": "16px",
+                    "margin": "24px",
+                    "xs": "8px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                    "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+
+<!-- Core Application Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=20260531-hardening1"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/state.js"></script>
+<script src="js/auth.js?v=20260531-hardening1"></script>
+<script src="js/router.js?v=20260531-logo-link2"></script>
+<script src="js/utils.js?v=20260531-hardening1"></script>
+<script src="js/components/toast.js?v=20260531-xss1"></script>
+<script src="js/components/modal.js?v=20260531-xss1"></script>
+<script src="js/components/table.js?v=20260531-xss1"></script>
+<script src="js/components/charts.js"></script>
+<script src="js/notifications.js?v=20260531-hardening2"></script>
+<script src="js/modules/collection.js?v=20260531-workflow1"></script>
+<script src="js/modules/production.js?v=20260531-backend1"></script>
+<script src="js/modules/sales.js?v=20260531-backend1"></script>
+<script src="js/modules/hr.js"></script>
+<script src="js/modules/finance.js?v=20260531-backend1"></script>
+<script src="js/modules/inventory.js?v=20260601-stock-ledger1"></script>
+<script src="js/modules/dashboard.js"></script>
+<script src="js/routes/dashboard/page.js?v=20260531-system-overview2"></script>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline">
+<div class="flex justify-between items-center px-margin h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-sm"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTzqPkhahSO7wAYGB5r6-y-Nqhmvvxh0uNNPJJh_VPgxGjb4nNU56DBc3THQkgGptesbcVDqBqP89YdX-FkwfI_kyMo9sy9DUGKtcMsbapxlaQlhs17SIZixE8-jY4xZx0Bm_gFAv1t-Kn9RlXXzANd4lympkGRNS23kiEzr2bWdNpKO8Nx9H8Lpr2rfgAWMsyHuXSiuJxd2pN0kB-vO-9AbNlauMzGgzg67uzezaJuA0nv5h-gASvyEeUVbPgLRHNumzmiVfhOFv6" alt="Eden Recyclers" class="h-8 w-auto object-contain"></div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined p-2 hover:bg-surface-container-low transition-colors rounded-full" data-icon="search">search</button>
+<div class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of an operations manager in a clean, industrial office setting. The individual wears a smart casual polo shirt. The lighting is bright and natural, reflecting a modern corporate aesthetic with soft bokeh of a recycling facility in the distant background. High contrast and clean forest green tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv5JLpqC0LS6dNf5exRltXnS91FKaF2b44M8FnA-QW7mlqWUCWyRCTn6ic02_eQzt6lcSjz5Gc4E59Dil8m3NJa4ioOzqb8wPf7u6zvDd3-OoRYD7-ImnmX-iQAIrFrvct64I11zgurZbe3e2n46CuWZEVsU8vm_nRkWEuOQVH5wxvZfoFadGN6QbvWlbHS3HaIqpbVrQWv01uPhV5R-9NAdp9_F-rAZ9hUbUoREdWNFRVt2dsHbLJJHyCJEbtKg7H_KbaB9F3eJ6w">
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen pt-16">
+<!-- NavigationDrawer (Hidden on mobile) -->
+<aside class="hidden lg:flex flex-col py-lg gap-base h-screen w-80 fixed left-0 bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant">
+<div class="px-lg pb-md border-b border-outline-variant/30 flex items-center gap-md">
+<div class="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="factory" style="font-variation-settings: 'FILL' 1;">factory</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary">Operational Lead</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Eden Recyclers HQ</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto pt-md space-y-1">
+<a class="flex items-center gap-md bg-primary-container text-on-primary-container font-bold rounded-full mx-2 py-3 px-4 transition-all scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="recycling">recycling</span>
+<span class="font-label-md text-label-md">Waste Collection</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="warehouse">warehouse</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+<span class="font-label-md text-label-md">Production</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-md text-label-md">Sales &amp; Distribution</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">HR</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-label-md text-label-md">Finance</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 py-3 px-4 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+<span class="font-label-md text-label-md">Infrastructure</span>
+</a>
+</nav>
+<div class="px-lg pt-base border-t border-outline-variant/30 text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant/60">v2.4.0</span>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-80 pb-24 md:pb-8">
+<div class="max-w-container-max mx-auto px-margin py-lg space-y-xl">
+<!-- Hero Section / Status -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<div class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-lg">
+<div class="flex items-center gap-xs bg-primary-container/10 text-primary px-3 py-1 rounded-full border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-md text-label-md">Operational Health: Optimal</span>
+</div>
+</div>
+<h2 class="font-headline-xl text-headline-xl mb-base">System Overview</h2>
+<p class="text-on-surface-variant mb-lg max-w-md">All recycling modules are performing within 98% efficiency parameters. Inventory levels are stable for current production cycles.</p>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-md">
+<div class="bg-surface p-md rounded-lg border border-outline-variant/50 hover:border-primary transition-all cursor-default">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Waste Collected</span>
+<div class="flex items-baseline gap-xs mt-base">
+<span class="font-headline-md text-headline-md text-primary">124.5</span>
+<span class="font-label-md text-label-md text-on-surface-variant">tons</span>
+</div>
+<div class="mt-xs text-primary text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_upward">arrow_upward</span>
+                                    12% this week
+                                </div>
+</div>
+<div class="bg-surface p-md rounded-lg border border-outline-variant/50 hover:border-primary transition-all cursor-default">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Production Output</span>
+<div class="flex items-baseline gap-xs mt-base">
+<span class="font-headline-md text-headline-md text-primary">82.1</span>
+<span class="font-label-md text-label-md text-on-surface-variant">units/hr</span>
+</div>
+<div class="mt-xs text-primary text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                                    On target
+                                </div>
+</div>
+<div class="bg-surface p-md rounded-lg border border-outline-variant/50 hover:border-primary transition-all cursor-default">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Active Field Staff</span>
+<div class="flex items-baseline gap-xs mt-base">
+<span class="font-headline-md text-headline-md text-primary">48</span>
+<span class="font-label-md text-label-md text-on-surface-variant">deployed</span>
+</div>
+<div class="mt-xs text-secondary text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+                                    8 pending shifts
+                                </div>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 bg-primary text-on-primary rounded-xl p-lg shadow-md flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-[160px]" data-icon="recycling">recycling</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm mb-xs">Next Major Shipment</h3>
+<p class="text-on-primary/80 font-body-sm mb-lg">Export to Euro-Process Facility</p>
+<div class="space-y-sm">
+<div class="flex justify-between items-center border-b border-on-primary/20 pb-xs">
+<span class="font-label-md text-label-md">Estimated Time</span>
+<span class="font-label-md text-label-md">04:20 PM</span>
+</div>
+<div class="flex justify-between items-center border-b border-on-primary/20 pb-xs">
+<span class="font-label-md text-label-md">Vehicle ID</span>
+<span class="font-label-md text-label-md">TRK-992-G</span>
+</div>
+</div>
+</div>
+<button class="mt-lg w-full py-3 bg-primary-fixed text-on-primary-fixed font-bold rounded-xl hover:opacity-90 transition-opacity">
+                            View Full Logistics
+                        </button>
+</div>
+</section>
+<!-- Module Access Bento Grid -->
+<section>
+<div class="flex items-center justify-between mb-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface">Operations Modules</h2>
+<button class="text-primary font-label-md flex items-center gap-xs hover:underline">
+                            Manage Layout <span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+<!-- Module Card 1: Waste -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md group hover:shadow-lg transition-all cursor-pointer">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="recycling" style="font-variation-settings: 'FILL' 1;">recycling</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-base">Waste Collection</h4>
+<p class="text-on-surface-variant font-body-sm mb-md">Manage intake routes and vehicle tracking.</p>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%] rounded-full"></div>
+</div>
+</div>
+<!-- Module Card 2: Inventory -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md group hover:shadow-lg transition-all cursor-pointer">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="warehouse" style="font-variation-settings: 'FILL' 1;">warehouse</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-base">Inventory</h4>
+<p class="text-on-surface-variant font-body-sm mb-md">Real-time stock of raw and processed materials.</p>
+<div class="flex gap-base">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-label-sm rounded-full">Plastics: High</span>
+</div>
+</div>
+<!-- Module Card 3: Production -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md group hover:shadow-lg transition-all cursor-pointer">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="precision_manufacturing" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-base">Production</h4>
+<p class="text-on-surface-variant font-body-sm mb-md">Monitor extrusion and cleaning lines.</p>
+<div class="flex items-center gap-xs text-primary font-label-sm">
+<span class="animate-pulse">●</span> Line 4 Active
+                            </div>
+</div>
+<!-- Module Card 4: Sales -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md group hover:shadow-lg transition-all cursor-pointer">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-base">Sales</h4>
+<p class="text-on-surface-variant font-body-sm mb-md">Pipeline, invoices, and distribution logs.</p>
+<span class="text-on-surface-variant font-label-sm">+12 Pending Orders</span>
+</div>
+<!-- Module Card 5: HR -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md group hover:shadow-lg transition-all cursor-pointer">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-base">HR</h4>
+<p class="text-on-surface-variant font-body-sm mb-md">Staffing schedules and safety compliance.</p>
+</div>
+<!-- Module Card 6: Finance -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md group hover:shadow-lg transition-all cursor-pointer">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-base">Finance</h4>
+<p class="text-on-surface-variant font-body-sm mb-md">Operating costs and P&amp;L dashboards.</p>
+</div>
+<!-- Module Card 7: Analytics -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md group hover:shadow-lg transition-all cursor-pointer">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-base">Analytics</h4>
+<p class="text-on-surface-variant font-body-sm mb-md">Long-term sustainability trends.</p>
+</div>
+<!-- Module Card 8: Infrastructure -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md group hover:shadow-lg transition-all cursor-pointer">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm mb-base">Infrastructure</h4>
+<p class="text-on-surface-variant font-body-sm mb-md">Facility maintenance and hardware status.</p>
+</div>
+</div>
+</section>
+<!-- Data Table: Recent Activity -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<div class="px-lg py-md border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Recent Operational Events</h3>
+<button class="text-primary font-label-md px-3 py-1 hover:bg-surface-container rounded-lg transition-colors">Export Logs</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-lg py-md font-label-md text-on-surface-variant">Timestamp</th>
+<th class="px-lg py-md font-label-md text-on-surface-variant">Module</th>
+<th class="px-lg py-md font-label-md text-on-surface-variant">Action</th>
+<th class="px-lg py-md font-label-md text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-md font-body-sm">10:45 AM</td>
+<td class="px-lg py-md"><span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded text-label-sm">Collection</span></td>
+<td class="px-lg py-md font-body-md">Pickup completed at Central Mall</td>
+<td class="px-lg py-md"><span class="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-label-sm">Success</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-md font-body-sm">09:30 AM</td>
+<td class="px-lg py-md"><span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded text-label-sm">Inventory</span></td>
+<td class="px-lg py-md font-body-md">Refined PET low stock alert</td>
+<td class="px-lg py-md"><span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full text-label-sm">Warning</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-lg py-md font-body-sm">08:15 AM</td>
+<td class="px-lg py-md"><span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant rounded text-label-sm">Infrastructure</span></td>
+<td class="px-lg py-md font-body-md">Conveyor Line 2 maintenance check</td>
+<td class="px-lg py-md"><span class="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-label-sm">Success</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Visible on mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-surface dark:bg-surface-dim border-t border-outline-variant z-50 shadow-md">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+<span class="font-label-sm text-label-sm">Collect</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm">Stock</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="factory">factory</span>
+<span class="font-label-sm text-label-sm">Process</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+<span class="font-label-sm text-label-sm">More</span>
+</a>
+</nav>
+<!-- FAB (Only on relevant dashboard view) -->
+<button class="fixed bottom-24 right-6 md:bottom-8 md:right-8 w-14 h-14 bg-primary text-on-primary rounded-xl shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.group.cursor-pointer').forEach(card => {
+            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
+            card.addEventListener('mouseup', () => card.style.transform = 'scale(1)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+        });
+
+        // Simple real-time update simulator for the "Active Field Staff"
+        setInterval(() => {
+            const staffCount = document.querySelector('span.text-primary.font-headline-md');
+            if(staffCount && staffCount.innerText == '124.5') return; // Target first one by accident? No, let's targeting specifically
+            // Find the 48
+            const counters = document.querySelectorAll('.font-headline-md');
+            counters.forEach(c => {
+                if(c.innerText === '48') {
+                    const change = Math.random() > 0.5 ? 1 : -1;
+                    const newVal = Math.max(40, Math.min(60, parseInt(c.innerText) + change));
+                    c.innerText = newVal;
+                }
+            });
+        }, 5000);
+    </script>
+</body></html>

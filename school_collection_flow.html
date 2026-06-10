@@ -1,0 +1,407 @@
+<!-- School Collection Flow -->
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Eden Recyclers | School Collection Module</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container": "#ebeef0",
+                      "outline-variant": "#becab6",
+                      "surface-dim": "#d7dadc",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#653d1e",
+                      "surface": "#f7fafc",
+                      "tertiary": "#515c70",
+                      "primary": "#006c03",
+                      "surface-container-high": "#e5e9eb",
+                      "secondary": "#805533",
+                      "surface-container-low": "#f1f4f6",
+                      "on-tertiary-fixed": "#111c2c",
+                      "primary-container": "#1f8719",
+                      "inverse-primary": "#78dd66",
+                      "background": "#f7fafc",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#ffdcc5",
+                      "on-secondary": "#ffffff",
+                      "outline": "#6f7a69",
+                      "on-background": "#181c1e",
+                      "tertiary-container": "#6a7589",
+                      "tertiary-fixed-dim": "#bcc7dd",
+                      "surface-variant": "#e0e3e5",
+                      "on-surface": "#181c1e",
+                      "on-primary-fixed-variant": "#005302",
+                      "secondary-container": "#fdc39a",
+                      "on-secondary-container": "#794e2e",
+                      "inverse-surface": "#2d3133",
+                      "on-primary-fixed": "#002200",
+                      "surface-tint": "#006e03",
+                      "primary-fixed-dim": "#78dd66",
+                      "primary-fixed": "#93fa7f",
+                      "on-primary-container": "#f8ffef",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-surface-variant": "#3f4a3b",
+                      "error": "#ba1a1a",
+                      "on-tertiary-container": "#fefcff",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed": "#d8e3fa",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-tertiary-fixed-variant": "#3c475a",
+                      "surface-bright": "#f7fafc",
+                      "on-secondary-fixed": "#301400",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#f4bb92",
+                      "inverse-on-surface": "#eef1f3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "8px",
+                      "xl": "32px",
+                      "margin": "24px",
+                      "gutter": "16px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "base": "4px",
+                      "sm": "12px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"]
+              },
+              "fontSize": {
+                      "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .school-card-gradient {
+            background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(247,250,252,1) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+<!-- Core Application Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=20260531-hardening1"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/state.js"></script>
+<script src="js/auth.js?v=20260531-hardening1"></script>
+<script src="js/router.js?v=20260531-logo-link2"></script>
+<script src="js/utils.js?v=20260531-hardening1"></script>
+<script src="js/components/toast.js?v=20260531-xss1"></script>
+<script src="js/components/modal.js?v=20260531-xss1"></script>
+<script src="js/components/table.js?v=20260531-xss1"></script>
+<script src="js/components/charts.js"></script>
+<script src="js/notifications.js?v=20260531-hardening2"></script>
+<script src="js/modules/collection.js?v=20260531-workflow1"></script>
+<script src="js/routes/collection/page.js?v=20260530"></script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline">
+<div class="flex justify-between items-center px-margin h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">eco</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary dark:text-inverse-primary">Eden Recyclers</h1>
+</div>
+<div class="hidden md:flex gap-xl items-center">
+<nav class="flex gap-md">
+<a class="text-primary font-bold font-label-md text-label-md px-base py-base" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md px-base py-base rounded-lg" href="#">Reports</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md px-base py-base rounded-lg" href="#">Schools</a>
+</nav>
+<img alt="Profile" class="w-10 h-10 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb3q-G1dcLF0t4629o7-5e8GskByyR_Gt9G2FLx50lQCiQmdgJrN_q2AJyEgzIhBXS9lkcIbdodVx68BMlfWOM3YEzNO5F4IcAMM-SyMik53e1GM0pc6jddcXl_7Hv2vtCDSy9u8SZiTG-js4syv0HrEQmed9TL01vEHOMYePJbwNZxNbrzChYt4dWmxfedz0WuLS3mT-WIYYdzPBC5IzL_F-ljmD0Mp7AoCc2R0h21LHe6Vb1EsbgNC0QqlaPCMb8_5gZDwP41gz4"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin max-w-container-max mx-auto">
+<!-- Hero Header -->
+<section class="mb-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<span class="font-label-md text-label-md text-primary uppercase tracking-widest">Sustainability Education</span>
+<h2 class="font-headline-xl text-headline-xl mt-base">School Collection Center</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm max-w-2xl">Empowering the next generation through waste accountability and environmental stewardship. Track participation, schedules, and environmental impact across all partner schools.</p>
+</div>
+<button class="bg-primary text-on-primary px-xl py-md rounded-xl font-headline-sm text-headline-sm hover:opacity-90 transition-opacity flex items-center gap-sm">
+<span class="material-symbols-outlined">add_business</span>
+                    Onboard New School
+                </button>
+</div>
+</section>
+<!-- Bento Grid Main Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Weighing System & Active Log -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- Weighing Input Module -->
+<div class="bg-white rounded-xl border border-outline-variant p-lg shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-md text-headline-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">scale</span>
+                            Real-time Collection Input
+                        </h3>
+<span class="bg-secondary-container text-on-secondary-container px-sm py-base rounded-full font-label-md text-label-md">Live Station #04</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-lg">
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-on-surface-variant">Select Participating School</label>
+<select class="w-full border-outline-variant rounded-lg p-sm bg-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary">
+<option>Green Valley Elementary</option>
+<option>St. Jude High School</option>
+<option>Oakwood Academy</option>
+<option>Riverdale Science College</option>
+</select>
+</div>
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-on-surface-variant">Material Type</label>
+<select class="w-full border-outline-variant rounded-lg p-sm bg-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary">
+<option>Plastic (PET/HDPE)</option>
+<option>Cardboard &amp; Paper</option>
+<option>Aluminum Cans</option>
+<option>Glass Containers</option>
+</select>
+</div>
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-on-surface-variant">Weight Measurement (kg)</label>
+<div class="relative">
+<input class="w-full border-outline-variant rounded-lg p-sm bg-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary pr-12" placeholder="0.00" type="number"/>
+<span class="absolute right-3 top-2.5 text-on-surface-variant font-label-md text-label-md">KG</span>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-sm">
+<button class="text-on-surface-variant font-label-md text-label-md px-lg py-sm rounded-lg hover:bg-surface-container-low transition-colors">Clear Fields</button>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Submit Data Record</button>
+</div>
+</div>
+<!-- Collection Records Table -->
+<div class="bg-white rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<div class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h3 class="font-headline-sm text-headline-sm">Today's Collection Log</h3>
+<button class="text-primary font-label-md text-label-md flex items-center gap-base">
+                            View Historical
+                            <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container text-on-surface-variant">
+<tr>
+<th class="px-lg py-sm font-label-md text-label-md uppercase">School Name</th>
+<th class="px-lg py-sm font-label-md text-label-md uppercase">Time</th>
+<th class="px-lg py-sm font-label-md text-label-md uppercase">Category</th>
+<th class="px-lg py-sm font-label-md text-label-md uppercase">Weight</th>
+<th class="px-lg py-sm font-label-md text-label-md uppercase text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md font-body-md text-body-md">Green Valley Elementary</td>
+<td class="px-lg py-md font-body-md text-body-md text-on-surface-variant">09:15 AM</td>
+<td class="px-lg py-md"><span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-sm py-base rounded-full text-xs font-bold">Plastic</span></td>
+<td class="px-lg py-md font-body-md text-body-md font-bold">142.5 kg</td>
+<td class="px-lg py-md text-right">
+<span class="inline-flex items-center gap-base text-[#006e03] bg-primary-fixed bg-opacity-20 px-sm py-base rounded-lg text-xs font-bold">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span> Verified
+                                        </span>
+</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md font-body-md text-body-md">Oakwood Academy</td>
+<td class="px-lg py-md font-body-md text-body-md text-on-surface-variant">10:30 AM</td>
+<td class="px-lg py-md"><span class="bg-secondary-fixed text-on-secondary-fixed-variant px-sm py-base rounded-full text-xs font-bold">Cardboard</span></td>
+<td class="px-lg py-md font-body-md text-body-md font-bold">89.2 kg</td>
+<td class="px-lg py-md text-right">
+<span class="inline-flex items-center gap-base text-[#006e03] bg-primary-fixed bg-opacity-20 px-sm py-base rounded-lg text-xs font-bold">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span> Verified
+                                        </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-lg py-md font-body-md text-body-md">St. Jude High School</td>
+<td class="px-lg py-md font-body-md text-body-md text-on-surface-variant">11:05 AM</td>
+<td class="px-lg py-md"><span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-sm py-base rounded-full text-xs font-bold">Aluminum</span></td>
+<td class="px-lg py-md font-body-md text-body-md font-bold">12.8 kg</td>
+<td class="px-lg py-md text-right">
+<span class="inline-flex items-center gap-base text-secondary bg-secondary-fixed bg-opacity-20 px-sm py-base rounded-lg text-xs font-bold">
+<span class="material-symbols-outlined text-[14px]">pending</span> Processing
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Leaderboard & Schedules -->
+<div class="lg:col-span-4 space-y-gutter">
+<!-- Impact Leaderboard -->
+<div class="bg-white rounded-xl border border-outline-variant p-lg shadow-sm school-card-gradient">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<h3 class="font-headline-sm text-headline-sm">Participation Leaderboard</h3>
+</div>
+<div class="space-y-md">
+<div class="flex items-center gap-md">
+<span class="w-8 h-8 flex items-center justify-center bg-primary text-on-primary rounded-full font-bold text-sm">1</span>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-base">
+<span class="font-label-md text-label-md font-bold">Green Valley</span>
+<span class="font-label-md text-label-md text-primary">1.2 Tons / Month</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 85%;"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="w-8 h-8 flex items-center justify-center bg-surface-container-highest text-on-surface rounded-full font-bold text-sm">2</span>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-base">
+<span class="font-label-md text-label-md font-bold">St. Jude High</span>
+<span class="font-label-md text-label-md text-primary">0.9 Tons / Month</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="w-8 h-8 flex items-center justify-center bg-surface-container-highest text-on-surface rounded-full font-bold text-sm">3</span>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-base">
+<span class="font-label-md text-label-md font-bold">Oakwood Academy</span>
+<span class="font-label-md text-label-md text-primary">0.7 Tons / Month</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 50%;"></div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-lg border border-outline-variant py-sm rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-all">View All Standings</button>
+</div>
+<!-- Collection Schedule -->
+<div class="bg-primary text-on-primary rounded-xl p-lg shadow-md">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined">calendar_today</span>
+<h3 class="font-headline-sm text-headline-sm">Next Scheduled Trips</h3>
+</div>
+<div class="space-y-md">
+<div class="flex items-start gap-md border-l-2 border-on-primary-container pl-md">
+<div>
+<p class="font-label-md text-label-md opacity-80 uppercase">Tomorrow, 08:00 AM</p>
+<p class="font-headline-sm text-headline-sm">Riverdale Science College</p>
+<p class="font-body-sm text-body-sm mt-base flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span> 
+                                    Truck ID: LOGI-882
+                                </p>
+</div>
+</div>
+<div class="flex items-start gap-md border-l-2 border-on-primary-container border-opacity-30 pl-md">
+<div>
+<p class="font-label-md text-label-md opacity-60 uppercase">Wed, 10:30 AM</p>
+<p class="font-headline-sm text-headline-sm opacity-80">Forest Hills Primary</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-lg bg-on-primary text-primary py-sm rounded-lg font-label-md text-label-md font-bold">Manage Schedule</button>
+</div>
+<!-- Environmental Insight -->
+<div class="bg-white rounded-xl border border-outline-variant p-lg shadow-sm">
+<img class="w-full h-32 object-cover rounded-lg mb-md" data-alt="A lush green forest landscape with sunlight filtering through the canopy, symbolizing the positive environmental impact of recycling initiatives. The image is captured in a high-fidelity photographic style, emphasizing clean air and biological diversity, with a serene and hopeful tone to inspire sustainable actions within a modern recycling platform's dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFWl_UbX0-zGqIP55eCYXh6A0UNoZxbqTEcVSyLMzXq1yBorRPFm_Et-RopMYAdG-VfmY0_EEcRTMaWS3IuoRXlqrioXa-tKzYKUMBS8qE3sYlx22m3pLb-OmM2TmwWLVIZOrPkjwJvNFce1rene2CpxTEGWExxx6e6WBtYX9epaRLSD5zczXoU0qSGZnAOy0OWJixhmGJEQsc4vg8qGvqj8o3mT1pFw0IwVmg_ynjkNeS5Jf7jwxN-wiU61bsffgPMzNjW_QxKODb"/>
+<h4 class="font-headline-sm text-headline-sm mb-xs">Education Impact</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Your recycling efforts this quarter have saved the equivalent of <strong>42 trees</strong> and reduced 1.2 tonnes of CO2 emissions.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-surface dark:bg-surface-dim border-t border-outline-variant z-50 shadow-md">
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+<span class="font-label-sm text-label-sm mt-1">Collect</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-sm text-label-sm mt-1">Stock</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">factory</span>
+<span class="font-label-sm text-label-sm mt-1">Process</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm mt-1">Sales</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+<span class="font-label-sm text-label-sm mt-1">More</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for measurement input
+        const weightInput = document.querySelector('input[type="number"]');
+        if (weightInput) {
+            weightInput.addEventListener('input', (e) => {
+                if (e.target.value > 200) {
+                    e.target.classList.add('text-error', 'border-error');
+                } else {
+                    e.target.classList.remove('text-error', 'border-error');
+                }
+            });
+        }
+
+        // Simulating collection status update
+        const tableRows = document.querySelectorAll('tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('click', () => {
+                row.classList.toggle('bg-primary-fixed-dim');
+                row.classList.toggle('bg-opacity-10');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,9 @@
+{
+  "name": "Eden Recyclers Business Operations System",
+  "short_name": "Eden BOS",
+  "start_url": "/operations_overview.html",
+  "display": "standalone",
+  "background_color": "#f7fafc",
+  "theme_color": "#006c03",
+  "icons": []
+}

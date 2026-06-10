@@ -1,0 +1,464 @@
+<!-- Finance Overview -->
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Eden Recyclers | Finance Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#eef1f3",
+                    "secondary-fixed": "#ffdcc5",
+                    "primary-container": "#1f8719",
+                    "surface": "#f7fafc",
+                    "tertiary-container": "#6a7589",
+                    "surface-dim": "#d7dadc",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#3f4a3b",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#005302",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-secondary-fixed": "#301400",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#f8ffef",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#515c70",
+                    "on-tertiary-container": "#fefcff",
+                    "on-secondary-container": "#794e2e",
+                    "secondary-container": "#fdc39a",
+                    "secondary": "#805533",
+                    "on-surface": "#181c1e",
+                    "inverse-primary": "#78dd66",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container": "#ebeef0",
+                    "outline-variant": "#becab6",
+                    "on-tertiary-fixed": "#111c2c",
+                    "surface-bright": "#f7fafc",
+                    "secondary-fixed-dim": "#f4bb92",
+                    "on-background": "#181c1e",
+                    "inverse-surface": "#2d3133",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#bcc7dd",
+                    "on-tertiary-fixed-variant": "#3c475a",
+                    "on-primary-fixed": "#002200",
+                    "surface-container-low": "#f1f4f6",
+                    "primary": "#006c03",
+                    "on-secondary-fixed-variant": "#653d1e",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#93fa7f",
+                    "outline": "#6f7a69",
+                    "background": "#f7fafc",
+                    "tertiary-fixed": "#d8e3fa",
+                    "surface-tint": "#006e03",
+                    "primary-fixed-dim": "#78dd66",
+                    "surface-container-high": "#e5e9eb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "8px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "margin": "24px",
+                    "gutter": "16px",
+                    "sm": "12px",
+                    "base": "4px",
+                    "lg": "24px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-xl": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-bar {
+            transition: height 1s ease-out;
+        }
+        body {
+            background-color: #f7fafc;
+        }
+    </style>
+
+<!-- Core Application Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=20260531-hardening1"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/state.js"></script>
+<script src="js/auth.js?v=20260531-hardening1"></script>
+<script src="js/router.js?v=20260531-logo-link2"></script>
+<script src="js/utils.js?v=20260531-hardening1"></script>
+<script src="js/components/toast.js?v=20260531-xss1"></script>
+<script src="js/components/modal.js?v=20260531-xss1"></script>
+<script src="js/components/table.js?v=20260531-xss1"></script>
+<script src="js/components/charts.js"></script>
+<script src="js/notifications.js?v=20260531-hardening2"></script>
+<script src="js/modules/hr.js"></script>
+<script src="js/modules/finance.js?v=20260531-backend1"></script>
+<script src="js/routes/finance/page.js?v=20260531-finance"></script>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline">
+<div class="flex justify-between items-center px-margin h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-md"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVPYRCZ1wlcCbMKA3C4vrs8zT2BTRAjz2CQowLE6js_pM6XJVL9NYwDjbNilFoy-po2kTsJ6LVjN5teCEysLpt66JU0mKYx2K6QdnCpGhm3nWvUoZXVNrM9TT34qfyDtdLKHrVVyaOEb0LU3ZryMNOVYqP-l50xUPtrIFDMjsDY9k4uDYwtwVGs7UR5v0g2NuSJNTKUwHRMsn1pUFQNsIj4kH9LjYqJP85z33mzzFb3r1S3n8ldeeSCyskLwdi848ikEiQBZ8gxwGG" alt="Eden Recyclers logo" class="h-8 w-auto object-contain"></div>
+<div class="flex items-center gap-md"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVPYRCZ1wlcCbMKA3C4vrs8zT2BTRAjz2CQowLE6js_pM6XJVL9NYwDjbNilFoy-po2kTsJ6LVjN5teCEysLpt66JU0mKYx2K6QdnCpGhm3nWvUoZXVNrM9TT34qfyDtdLKHrVVyaOEb0LU3ZryMNOVYqP-l50xUPtrIFDMjsDY9k4uDYwtwVGs7UR5v0g2NuSJNTKUwHRMsn1pUFQNsIj4kH9LjYqJP85z33mzzFb3r1S3n8ldeeSCyskLwdi848ikEiQBZ8gxwGG" alt="Eden Recyclers logo" class="h-8 w-auto object-contain"></div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin max-w-container-max mx-auto">
+<!-- Header & Balance -->
+<section class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Finance Overview</h2>
+<p class="text-on-surface-variant font-body-lg text-body-lg mt-base">Managing sustainable capital for a greener future.</p>
+</div>
+<div class="bg-primary-container p-lg rounded-xl shadow-md min-w-[280px]">
+<div class="flex items-center justify-between mb-xs">
+<span class="text-on-primary-container font-label-md text-label-md">CURRENT BALANCE</span>
+<span class="material-symbols-outlined text-on-primary-container" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div class="text-on-primary-container font-headline-xl text-headline-xl">$1,482,904.50</div>
+<div class="flex items-center gap-xs mt-xs">
+<span class="material-symbols-outlined text-on-primary-container text-sm" data-icon="trending_up">trending_up</span>
+<span class="text-on-primary-container font-label-sm text-label-sm">+12.4% from last month</span>
+</div>
+</div>
+</section>
+<!-- KPI Cards -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+<!-- Revenue -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-md mb-md">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant">Monthly Revenue</h3>
+<p class="font-headline-md text-headline-md text-on-surface">$428,150</p>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[78%]"></div>
+</div>
+<div class="mt-xs flex justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Target: $550k</span>
+<span class="font-label-sm text-label-sm text-primary">78%</span>
+</div>
+</div>
+<!-- Expenses -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-md mb-md">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="request_quote">request_quote</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant">Operational Expenses</h3>
+<p class="font-headline-md text-headline-md text-on-surface">$192,400</p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-xs">
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Fuel</p>
+<p class="font-label-md text-label-md text-secondary">$42k</p>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Elec.</p>
+<p class="font-label-md text-label-md text-secondary">$85k</p>
+</div>
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Maint.</p>
+<p class="font-label-md text-label-md text-secondary">$65k</p>
+</div>
+</div>
+</div>
+<!-- Net Profit -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-md mb-md">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="savings">savings</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant">Net Profit</h3>
+<p class="font-headline-md text-headline-md text-on-surface">$235,750</p>
+</div>
+</div>
+<div class="flex items-center gap-xs p-xs bg-surface-container rounded-lg">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="show_chart" style="font-variation-settings: 'FILL' 1;">show_chart</span>
+<span class="text-primary font-label-md text-label-md">Profit Margin: 55.1%</span>
+</div>
+</div>
+</section>
+<!-- Middle Section: Revenue by Material & Pending Payments -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-xl mb-xl">
+<!-- Revenue by Material Chart -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm h-full">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-sm text-headline-sm">Revenue by Material</h3>
+<button class="text-primary font-label-md text-label-md hover:underline">View Detailed Report</button>
+</div>
+<div class="flex items-end gap-md h-48 px-md">
+<div class="flex flex-col items-center flex-1 gap-xs">
+<div class="chart-bar bg-primary w-full rounded-t-lg" style="height: 85%;"></div>
+<span class="font-label-sm text-label-sm">PET</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-xs">
+<div class="chart-bar bg-secondary w-full rounded-t-lg" style="height: 60%;"></div>
+<span class="font-label-sm text-label-sm">HDPE</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-xs">
+<div class="chart-bar bg-tertiary w-full rounded-t-lg" style="height: 40%;"></div>
+<span class="font-label-sm text-label-sm">LDPE</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-xs">
+<div class="chart-bar bg-outline w-full rounded-t-lg" style="height: 70%;"></div>
+<span class="font-label-sm text-label-sm">ALUM</span>
+</div>
+<div class="flex flex-col items-center flex-1 gap-xs">
+<div class="chart-bar bg-primary-container w-full rounded-t-lg" style="height: 30%;"></div>
+<span class="font-label-sm text-label-sm">PAPER</span>
+</div>
+</div>
+<div class="mt-lg grid grid-cols-2 gap-md">
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="font-label-md text-label-md">PET: $182k</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="font-label-md text-label-md">HDPE: $128k</span>
+</div>
+</div>
+</div>
+<!-- Pending Payments -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm h-full overflow-hidden flex flex-col">
+<h3 class="font-headline-sm text-headline-sm mb-lg">Pending Payments</h3>
+<div class="space-y-md flex-1 overflow-y-auto pr-xs">
+<div class="flex items-center justify-between p-sm border-b border-surface-container-highest">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center font-bold text-primary">BP</div>
+<div>
+<p class="font-label-md text-label-md">BioPlastics Ltd.</p>
+<p class="text-on-surface-variant text-body-sm font-body-sm">Inv #4902 - Net 30</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-sm text-headline-sm text-on-surface">$24,500</p>
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-fixed px-2 py-0.5 rounded-full">Due in 4d</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-sm border-b border-surface-container-highest">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center font-bold text-primary">SC</div>
+<div>
+<p class="font-label-md text-label-md">SustainCo</p>
+<p class="text-on-surface-variant text-body-sm font-body-sm">Inv #4881 - Overdue</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-sm text-headline-sm text-error">$12,800</p>
+<span class="font-label-sm text-label-sm text-error bg-error-container px-2 py-0.5 rounded-full">Overdue 2d</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-sm">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center font-bold text-primary">GL</div>
+<div>
+<p class="font-label-md text-label-md">GreenLife Packaging</p>
+<p class="text-on-surface-variant text-body-sm font-body-sm">Inv #4910 - Net 15</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-sm text-headline-sm text-on-surface">$31,200</p>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-highest px-2 py-0.5 rounded-full">Pending</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Payroll & Recent Transactions -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+<!-- Payroll Summary -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm lg:col-span-1">
+<h3 class="font-headline-sm text-headline-sm mb-lg">Payroll Summary</h3>
+<div class="space-y-lg">
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-xs">
+<span class="">Field Staff (24)</span>
+<span class="">$48,500</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-xs">
+<span class="">Production Workers (38)</span>
+<span class="">$82,400</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-xs">
+<span class="">Logistics/Drivers (12)</span>
+<span class="">$34,200</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+</div>
+<div class="pt-md border-t border-outline-variant">
+<div class="flex justify-between items-center mb-lg">
+<span class="font-label-md text-label-md">Total Period Payout</span>
+<span class="font-headline-sm text-headline-sm">$165,100</span>
+</div>
+<button class="w-full bg-primary text-on-primary py-md rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+                            Process Payroll
+                        </button>
+</div>
+</div>
+</div>
+<!-- Recent Financial Transactions -->
+<div class="bg-white p-lg rounded-xl border border-outline-variant shadow-sm lg:col-span-2 overflow-x-auto">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-sm text-headline-sm">Recent Transactions</h3>
+<div class="flex gap-xs">
+<button class="p-xs bg-surface-container rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-xs bg-surface-container rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+</button>
+</div>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase">
+<th class="p-md">Entity</th>
+<th class="p-md">Date</th>
+<th class="p-md">Category</th>
+<th class="p-md">Status</th>
+<th class="p-md text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-highest">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md font-label-md text-label-md">National Power Grid</td>
+<td class="p-md text-body-sm font-body-sm">Oct 24, 2023</td>
+<td class="p-md text-body-sm font-body-sm">Electricity</td>
+<td class="p-md">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded-full font-label-sm text-label-sm">Completed</span>
+</td>
+<td class="p-md text-right font-label-md text-label-md text-error">-$12,400.00</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md font-label-md text-label-md">EcoPoly Manufacturing</td>
+<td class="p-md text-body-sm font-body-sm">Oct 23, 2023</td>
+<td class="p-md text-body-sm font-body-sm">Material Sale</td>
+<td class="p-md">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded-full font-label-sm text-label-sm">Completed</span>
+</td>
+<td class="p-md text-right font-label-md text-label-md text-primary">+$85,200.00</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md font-label-md text-label-md">Swift Logistics Fleet</td>
+<td class="p-md text-body-sm font-body-sm">Oct 22, 2023</td>
+<td class="p-md text-body-sm font-body-sm">Fuel Expense</td>
+<td class="p-md">
+<span class="bg-secondary-container/30 text-secondary px-2 py-0.5 rounded-full font-label-sm text-label-sm">Pending</span>
+</td>
+<td class="p-md text-right font-label-md text-label-md text-error">-$4,150.00</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md font-label-md text-label-md">City Waste Management</td>
+<td class="p-md text-body-sm font-body-sm">Oct 21, 2023</td>
+<td class="p-md text-body-sm font-body-sm">Collection Fee</td>
+<td class="p-md">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded-full font-label-sm text-label-sm">Completed</span>
+</td>
+<td class="p-md text-right font-label-md text-label-md text-error">-$18,000.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-surface dark:bg-surface-dim border-t border-outline-variant bg-surface dark:bg-surface-dim shadow-md z-50 rounded-t-full md:hidden">
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-transform">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-sm text-label-sm">Collect</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-transform">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm">Stock</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-transform">
+<span class="material-symbols-outlined" data-icon="factory">factory</span>
+<span class="font-label-sm text-label-sm">Process</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary transition-transform">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+<span class="font-label-sm text-label-sm">More</span>
+</div>
+</nav>
+<!-- Floating Action Button - Supressed on Finance Dashboard as per mandate if not perfectly aligned, 
+         but given 'Process Payroll' is a major action, we place it in content. No Global FAB needed here. -->
+<script>
+        // Simple micro-interaction for chart animation
+        window.addEventListener('load', () => {
+            const bars = document.querySelectorAll('.chart-bar');
+            bars.forEach(bar => {
+                const height = bar.style.height;
+                bar.style.height = '0%';
+                setTimeout(() => {
+                    bar.style.height = height;
+                }, 100);
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,422 @@
+<!-- Supplier & Inventory -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Supplier &amp; Inventory | Eden Recyclers</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#ebeef0",
+                        "outline-variant": "#becab6",
+                        "surface-dim": "#d7dadc",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#653d1e",
+                        "surface": "#f7fafc",
+                        "tertiary": "#515c70",
+                        "primary": "#006c03",
+                        "surface-container-high": "#e5e9eb",
+                        "secondary": "#805533",
+                        "surface-container-low": "#f1f4f6",
+                        "on-tertiary-fixed": "#111c2c",
+                        "primary-container": "#1f8719",
+                        "inverse-primary": "#78dd66",
+                        "background": "#f7fafc",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffdcc5",
+                        "on-secondary": "#ffffff",
+                        "outline": "#6f7a69",
+                        "on-background": "#181c1e",
+                        "tertiary-container": "#6a7589",
+                        "tertiary-fixed-dim": "#bcc7dd",
+                        "surface-variant": "#e0e3e5",
+                        "on-surface": "#181c1e",
+                        "on-primary-fixed-variant": "#005302",
+                        "secondary-container": "#fdc39a",
+                        "on-secondary-container": "#794e2e",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-fixed": "#002200",
+                        "surface-tint": "#006e03",
+                        "primary-fixed-dim": "#78dd66",
+                        "primary-fixed": "#93fa7f",
+                        "on-primary-container": "#f8ffef",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#3f4a3b",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#fefcff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#d8e3fa",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "surface-bright": "#f7fafc",
+                        "on-secondary-fixed": "#301400",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#f4bb92",
+                        "inverse-on-surface": "#eef1f3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "8px",
+                        "xl": "32px",
+                        "margin": "24px",
+                        "gutter": "16px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "base": "4px",
+                        "sm": "12px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { background-color: #f7fafc; color: #181c1e; font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #becab6; border-radius: 10px; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(226, 232, 240, 0.8); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+<!-- Core Application Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=20260531-hardening1"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/state.js"></script>
+<script src="js/auth.js?v=20260531-hardening1"></script>
+<script src="js/router.js?v=20260531-logo-link2"></script>
+<script src="js/utils.js?v=20260531-hardening1"></script>
+<script src="js/components/toast.js?v=20260531-xss1"></script>
+<script src="js/components/modal.js?v=20260531-xss1"></script>
+<script src="js/components/table.js?v=20260531-xss1"></script>
+<script src="js/components/charts.js"></script>
+<script src="js/notifications.js?v=20260531-hardening2"></script>
+<script src="js/modules/inventory.js?v=20260601-stock-ledger1"></script>
+<script src="js/routes/inventory/page.js?v=20260601-stock-demand1"></script>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<aside class="hidden md:flex h-screen w-80 bg-surface-container-low dark:bg-surface-container-lowest flex-col py-lg gap-base fixed left-0 top-0 z-40 border-r border-outline-variant shadow-lg">
+<div class="px-margin mb-xl">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-3xl">eco</span>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Eden Recyclers</h1>
+</div>
+<div class="mt-lg p-sm bg-surface-container-high rounded-xl flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold">OM</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Operational Lead</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">HQ Facility</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-base space-y-1">
+<a class="flex items-center gap-md px-margin py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined">recycling</span>
+<span class="font-label-md text-label-md">Waste Collection</span>
+</a>
+<a class="flex items-center gap-md px-margin py-3 bg-primary-container text-on-primary-container font-bold rounded-full mx-2 transition-all scale-[0.98]" href="#">
+<span class="material-symbols-outlined">warehouse</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-md px-margin py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+<span class="font-label-md text-label-md">Production</span>
+</a>
+<a class="flex items-center gap-md px-margin py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-md text-label-md">Sales &amp; Distribution</span>
+</a>
+<a class="flex items-center gap-md px-margin py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<div class="pt-xl border-t border-outline-variant mx-margin mt-xl">
+<p class="font-label-sm text-label-sm text-outline px-sm mb-base">ADMINISTRATION</p>
+<a class="flex items-center gap-md px-margin py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">HR</span>
+</a>
+<a class="flex items-center gap-md px-margin py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 transition-colors" href="#">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-md text-label-md">Infrastructure</span>
+</a>
+</div>
+</nav>
+<div class="px-margin mt-auto">
+<p class="font-label-sm text-label-sm text-outline opacity-50">v2.4.0 • HQ-SYSTEM</p>
+</div>
+</aside>
+<main class="flex-1 md:ml-80 pb-32 md:pb-xl">
+<header class="fixed top-0 w-full md:w-[calc(100%-320px)] z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant flex justify-between items-center px-margin h-16 max-w-container-max mx-auto">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary md:hidden">eco</span>
+<h2 class="font-headline-sm text-headline-sm text-primary font-bold">Inventory &amp; Suppliers</h2>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden sm:flex items-center px-sm py-xs bg-error-container text-on-error-container rounded-full gap-xs animate-pulse">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span class="font-label-sm text-label-sm">3 LOW STOCK ALERTS</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User profile" data-alt="A professional headshot of a facility manager in a bright, modern office setting. The lighting is clean and soft, reflecting a high-end corporate atmosphere. The style is professional and systematic, emphasizing trust and competence with a clear, neutral grey background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsvwdcr62KOZTlHPgT8Wqf2xFJGJKJlSjvjMMtSVMoPRFJN__0pnolL38prCKX-3VpXgjPzPkfu-LYsdF0zqSIU_3ireW-sCLwtY35R6QAsDiBgZErmgD8Oo3WMio6T7b3iC0UjqGw_oD5vspscj_MHoRE3SyD46Pdpn03iHYGfspr19dJ8ERaJcMXsDgVAyJEpLBBpJxHOWLbW4zrNwlEmYMmh3apH6aopuSnSHACQ8EV9mSNUGCBwW1MCCU165G5dMFTtCGqGNvm"/>
+</div>
+</div>
+</header>
+<div class="mt-20 px-margin space-y-xl max-w-7xl mx-auto">
+<section class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined p-base bg-secondary-container text-on-secondary-container rounded-lg">inventory_2</span>
+<span class="text-primary font-bold text-headline-sm">+12.4%</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Raw Plastics (HDPE)</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">42,850 kg</h3>
+</div>
+<div class="h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%]"></div>
+</div>
+<p class="font-label-sm text-label-sm text-outline">75% of Monthly Capacity</p>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined p-base bg-tertiary-container text-on-tertiary-container rounded-lg">factory</span>
+<span class="text-secondary font-bold text-headline-sm">Active</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Processing Batches</p>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">148 Units</h3>
+</div>
+<div class="flex -space-x-2 overflow-hidden">
+<div class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-primary-fixed-dim"></div>
+<div class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-secondary-fixed-dim"></div>
+<div class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-tertiary-fixed-dim"></div>
+<div class="flex items-center justify-center h-6 w-6 rounded-full ring-2 ring-white bg-surface-container text-[10px] font-bold">+12</div>
+</div>
+<p class="font-label-sm text-label-sm text-outline">8 Batches completing in 2h</p>
+</div>
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant shadow-sm flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined p-base bg-error-container text-error rounded-lg">priority_high</span>
+<span class="text-error font-bold text-headline-sm">Critical</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Low Stock Alerts</p>
+<h3 class="font-headline-lg text-headline-lg text-error">PET Flakes</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Current: 2,400kg | Threshold: 5,000kg</p>
+<button class="w-full mt-base py-xs bg-primary text-on-primary font-label-md text-label-md rounded-full hover:opacity-90 transition-opacity">
+                        Trigger Reorder
+                    </button>
+</div>
+</section>
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+<div class="lg:col-span-2 space-y-lg">
+<div class="flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md text-on-surface">Material Batch Tracking</h4>
+<div class="flex gap-sm">
+<button class="px-sm py-xs border border-outline text-on-surface-variant font-label-sm text-label-sm rounded-lg hover:bg-surface-container-low">Export PDF</button>
+<button class="px-sm py-xs bg-primary text-on-primary font-label-sm text-label-sm rounded-lg hover:opacity-90">Add Batch</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-high">
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant">Batch ID</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant">Material</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant">Weight</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant">Source Supplier</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-md font-body-md text-body-md font-bold">#BP-8821</td>
+<td class="px-lg py-md flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-md text-body-md">HDPE Pellets</span>
+</td>
+<td class="px-lg py-md font-body-md text-body-md">1,200 kg</td>
+<td class="px-lg py-md font-body-md text-body-md">EcoFlow Logistics</td>
+<td class="px-lg py-md">
+<span class="px-xs py-1 bg-[#dcfce7] text-[#166534] rounded-full text-[10px] font-bold uppercase">Stored</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low hover:bg-surface-container-high transition-colors">
+<td class="px-lg py-md font-body-md text-body-md font-bold">#BP-8822</td>
+<td class="px-lg py-md flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-body-md text-body-md">PET Flakes</span>
+</td>
+<td class="px-lg py-md font-body-md text-body-md">450 kg</td>
+<td class="px-lg py-md font-body-md text-body-md">Riverside Recovery</td>
+<td class="px-lg py-md">
+<span class="px-xs py-1 bg-[#fef3c7] text-[#92400e] rounded-full text-[10px] font-bold uppercase">Processing</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-md font-body-md text-body-md font-bold">#BP-8823</td>
+<td class="px-lg py-md flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-body-md text-body-md">LDPE Film</span>
+</td>
+<td class="px-lg py-md font-body-md text-body-md">8,500 kg</td>
+<td class="px-lg py-md font-body-md text-body-md">Global Urban Waste</td>
+<td class="px-lg py-md">
+<span class="px-xs py-1 bg-[#dbeafe] text-[#1e40af] rounded-full text-[10px] font-bold uppercase">In Transit</span>
+</td>
+</tr>
+<tr class="bg-surface-container-low hover:bg-surface-container-high transition-colors">
+<td class="px-lg py-md font-body-md text-body-md font-bold">#BP-8824</td>
+<td class="px-lg py-md flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-md text-body-md">HDPE Pellets</span>
+</td>
+<td class="px-lg py-md font-body-md text-body-md">2,100 kg</td>
+<td class="px-lg py-md font-body-md text-body-md">EcoFlow Logistics</td>
+<td class="px-lg py-md">
+<span class="px-xs py-1 bg-[#dcfce7] text-[#166534] rounded-full text-[10px] font-bold uppercase">Stored</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="space-y-lg">
+<h4 class="font-headline-md text-headline-md text-on-surface">Supplier Directory</h4>
+<div class="space-y-md">
+<div class="glass-card p-md rounded-xl flex items-center gap-md hover:shadow-md transition-shadow cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden">
+<img alt="Supplier" data-alt="Close-up of industrial recycling machinery in a clean, high-tech manufacturing plant. The lighting is crisp and cool, highlighting the metallic textures of the equipment and the precision of the recycling process. The scene conveys a sense of modern efficiency and sustainable progress." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLH292GM0FDa61Z_6OIT4lGQM-32FI7WBtHZQK8_dUAWKUPHbUJyjG03CVyJAW2kOmep7rnqeZpLcR_TZc3NAzE71Hyu-mA_mPCn6GCtzx2Tgvk7WXLXTnwsC56WjLsOcrHuOYrpWo5Ev6tiXDHF4tPSSC1mLu9JwCY9BKY-EUsv0HlOvBc5ccH1vd0M4lkvfxLZaUVbuRp0WViU8Za-HsWwmsrh9BzOskIt6rFHChcYfH90RypndOJD_Cg3UEC6arTi9iO4YbqqP4"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-on-surface">EcoFlow Logistics</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Primary: HDPE Pellets</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-primary">Reliable</span>
+<span class="material-symbols-outlined text-sm text-outline">verified</span>
+</div>
+</div>
+<div class="glass-card p-md rounded-xl flex items-center gap-md hover:shadow-md transition-shadow cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden">
+<img alt="Supplier" data-alt="A large-scale outdoor waste collection facility with organized containers of plastic materials. Bright, natural sunlight illuminates the area, casting soft shadows and highlighting the clean, systematic layout of the yard. The overall feeling is one of professional environmental stewardship and high-volume logistics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-GQq107DLnSGUzbKWBfkPhZOVlAUXk9f94jKoGfkWy0o5NBamXH9X6NqJLF--NfMDJdK6N23ewv3wvcuH0v4rQeWDhbFChZn_8iZmWW4oNfIld_g8G-Jh_XwqsNr2T1sJW0R5zH0gF9o5mJUEXDZnSzcmP44c3AlUwbZWhAn8B1vPHQX3DImb8k0ZPkI2I3MAQ7sCNe5dsOya4sBpxbSqmIJCVBZowES-5XAlYuGd5nR7o_YWQs8C9LFqIOTjMikV6bBYH55owI1K"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-on-surface">Riverside Recovery</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Primary: PET Flakes</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-secondary">In Process</span>
+<span class="material-symbols-outlined text-sm text-outline">schedule</span>
+</div>
+</div>
+<div class="glass-card p-md rounded-xl flex items-center gap-md hover:shadow-md transition-shadow cursor-pointer">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden">
+<img alt="Supplier" data-alt="Modern office building with eco-friendly architecture, featuring large glass panels and green spaces. The atmosphere is bright and airy, representing a corporate entity committed to sustainability. High-key lighting and a professional aesthetic reinforce the brand's connection to sustainable development." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXRNkhufKkG-GPKo2eFs8heZWuTWMj5V6lmBGrxXFt8_kUBJ-3VXDtgWx3NX8bQUe6DMSCc_eIq3w4qKzCiLkeB8G2oICcI2peZb9jfDGQdrPCvtipp9QAhCThYPBR8Axysxr7AL3IcywlrkovHG2V7_KXZBi8g9XeAJ3mQtwHizX5zh5JJ9XAtneHypudt_H1g5UyJfZDXbz65gQuqqZK7OCwxuWkEnBS1AH-SToTlpferp-gO095WSz7f2hMsEcDPm-qQJzZ77BB"/>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-on-surface">Global Urban Waste</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Primary: Mixed LDPE</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-error">Delayed</span>
+<span class="material-symbols-outlined text-sm text-error">report_problem</span>
+</div>
+</div>
+</div>
+<button class="w-full py-sm border border-dashed border-outline text-on-surface-variant font-label-md text-label-md rounded-xl hover:bg-surface-container-low transition-colors">
+                        + Link New Supplier
+                    </button>
+</div>
+</section>
+<section class="bg-primary-container/10 p-xl rounded-2xl border border-primary-container/20">
+<div class="flex flex-col md:flex-row justify-between items-center gap-lg">
+<div class="space-y-xs">
+<h4 class="font-headline-sm text-headline-sm text-on-primary-fixed-variant flex items-center gap-sm">
+<span class="material-symbols-outlined">auto_graph</span>
+                            Stock Forecast Analysis
+                        </h4>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">Based on current production speed, your HDPE Pellets inventory will reach critical levels in <span class="font-bold">14 days</span>. We recommend scheduling a batch from EcoFlow before Friday.</p>
+</div>
+<button class="bg-primary text-on-primary px-xl py-md font-label-md text-label-md rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95">
+                        Automate Restock Flow
+                    </button>
+</div>
+</section>
+</div>
+</main>
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-surface dark:bg-surface-dim border-t border-outline-variant shadow-md z-50 rounded-t-full">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-sm text-label-sm">Collect</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-sm text-label-sm">Stock</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined">factory</span>
+<span class="font-label-sm text-label-sm">Process</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm">Sales</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined">more_horiz</span>
+<span class="font-label-sm text-label-sm">More</span>
+</a>
+</nav>
+<button class="fixed bottom-24 right-margin md:bottom-xl md:right-xl w-14 h-14 bg-primary text-on-primary rounded-full shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</body></html>
