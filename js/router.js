@@ -181,6 +181,16 @@
 
   window.edenPageControllers = window.edenPageControllers || {};
 
+  const escapeHTML = value => window.edenUtils?.escapeHTML
+    ? window.edenUtils.escapeHTML(value)
+    : String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
+
   function hideUnauthorizedElements() {
     const userRole = window.appState.user.role;
     document.querySelectorAll('[data-role-required]').forEach(el => {
@@ -1203,8 +1213,8 @@
       <tr data-analysis-row data-analysis-department="${item.department}" class="border-t border-outline-variant hover:bg-surface-container-low transition-colors">
         <td class="py-sm pr-sm"><span class="px-xs py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">${formatSortLabel(item.department)}</span></td>
         <td class="py-sm pr-sm font-label-md text-label-md">${item.type}</td>
-        <td class="py-sm pr-sm font-body-md text-body-md">${item.item || 'Unnamed item'}</td>
-        <td class="py-sm pr-sm font-body-sm text-body-sm text-on-surface-variant">${item.owner}</td>
+        <td class="py-sm pr-sm font-body-md text-body-md">${window.edenUtils.escapeHTML(item.item || 'Unnamed item')}</td>
+        <td class="py-sm pr-sm font-body-sm text-body-sm text-on-surface-variant">${window.edenUtils.escapeHTML(item.owner)}</td>
         <td class="py-sm pr-sm">${statusBadgeForAnalysis(item.status)}</td>
         <td class="py-sm pr-sm"><button type="button" data-analysis-action="${item.department}" class="px-xs py-1 rounded-full border border-outline text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-high">${item.action}</button></td>
       </tr>
@@ -1223,8 +1233,8 @@
       <button type="button" data-analysis-load-filter="${row[0].toLowerCase()}" class="w-full text-left p-sm rounded-lg border border-outline-variant bg-surface-container-low hover:shadow-sm transition-all">
         <div class="flex items-center justify-between gap-md">
           <div class="min-w-0">
-            <p class="font-label-md text-label-md text-on-surface truncate">${row[0]}</p>
-            <p class="font-body-sm text-body-sm text-on-surface-variant">${row[2]}</p>
+            <p class="font-label-md text-label-md text-on-surface truncate">${window.edenUtils.escapeHTML(row[0])}</p>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">${window.edenUtils.escapeHTML(row[2])}</p>
           </div>
           <div class="flex items-center gap-sm">
             <strong class="font-headline-sm text-headline-sm text-primary">${row[1]}</strong>
@@ -1238,8 +1248,8 @@
   function miniMetricRows(rows) {
     return rows.map(([label, value]) => `
       <div class="py-sm flex items-center justify-between gap-md">
-        <dt class="font-body-sm text-body-sm text-on-surface-variant">${label}</dt>
-        <dd class="font-label-md text-label-md text-on-surface">${typeof value === 'string' ? value : Number(value || 0).toLocaleString('en-KE')}</dd>
+        <dt class="font-body-sm text-body-sm text-on-surface-variant">${window.edenUtils.escapeHTML(label)}</dt>
+        <dd class="font-label-md text-label-md text-on-surface">${typeof value === 'string' ? window.edenUtils.escapeHTML(value) : Number(value || 0).toLocaleString('en-KE')}</dd>
       </div>
     `).join('');
   }
@@ -1319,7 +1329,7 @@
       ...tasks.slice(0, 4).map(item => ['Task', item.title, item.assigned_to || item.department || 'Owner needed', formatSortLabel(item.status)])
     ];
     return (rows.length ? rows : [['None', 'No open risks recorded', 'Operations', 'Healthy']])
-      .map(row => `<tr><td class="py-xs">${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td></tr>`).join('');
+      .map(row => `<tr><td class="py-xs">${window.edenUtils.escapeHTML(row[0])}</td><td>${window.edenUtils.escapeHTML(row[1])}</td><td>${window.edenUtils.escapeHTML(row[2])}</td><td>${window.edenUtils.escapeHTML(row[3])}</td></tr>`).join('');
   }
 
   function compareSortValues(a, b, direction = 'asc') {
@@ -1409,7 +1419,7 @@
     const schools = await window.collectionModule.getSchools();
     if (schoolSelect && schools.length) {
       schoolSelect.innerHTML = '<option value="">Select School...</option>' + schools
-        .map(s => `<option value="${s.id}">${s.name}</option>`)
+        .map(s => `<option value="${escapeHTML(s.id)}">${escapeHTML(s.name)}</option>`)
         .join('');
     }
     if (wasteTypeSelect) {
@@ -1470,7 +1480,7 @@
     const rows = todayRows.length ? todayRows : collections.slice(0, 5);
     tbody.innerHTML = rows.map(c => `
       <tr class="hover:bg-surface-container-low transition-colors">
-        <td class="px-md py-md font-body-md text-body-md font-bold">${c.school_name || 'Unknown School'}</td>
+        <td class="px-md py-md font-body-md text-body-md font-bold">${window.edenUtils.escapeHTML(c.school_name || 'Unknown School')}</td>
         <td class="px-md py-md font-body-md text-body-md">${Number(c.weight_kg || 0).toLocaleString('en-KE')} kg</td>
         <td class="px-md py-md font-body-md text-body-md">${formatCollectionDate(c.collection_date)}</td>
         <td class="px-md py-md">${statusBadge(c.status)}</td>
@@ -1594,7 +1604,7 @@
           <div class="flex items-center gap-md">
             <div class="w-2 h-2 rounded-full ${dotClass}"></div>
             <div>
-              <p class="font-label-md text-label-md">${machine.name}</p>
+              <p class="font-label-md text-label-md">${window.edenUtils.escapeHTML(machine.name)}</p>
               <p class="font-body-sm text-body-sm ${hasMaintenance ? 'text-error' : 'text-on-surface-variant'}">${hasMaintenance ? 'Maintenance required' : machine.type || 'Production line'}</p>
             </div>
           </div>
@@ -1641,7 +1651,7 @@
     chart.innerHTML = '<div class="absolute inset-x-0 bottom-0 h-px bg-outline-variant"></div>' + data.map(([label, total], index) => `
       <div class="flex-1 flex flex-col items-center gap-sm group min-w-0">
         <div class="w-full ${colors[index % colors.length]} rounded-t-lg transition-all duration-500 group-hover:brightness-110" style="height: ${Math.max(12, Math.round((total / max) * 90))}%"></div>
-        <span class="font-label-sm text-label-sm text-on-surface-variant text-center truncate w-full" title="${label}">${label}</span>
+        <span class="font-label-sm text-label-sm text-on-surface-variant text-center truncate w-full" title="${window.edenUtils.escapeHTML(label)}">${window.edenUtils.escapeHTML(label)}</span>
       </div>
     `).join('');
   }
@@ -1659,8 +1669,8 @@
 
     list.innerHTML = items.map(batch => {
       const checked = batch.status === 'completed' ? 'checked' : '';
-      const title = batch.status === 'completed' ? `QC passed for ${batch.batch_number || batch.batch_code}` : `QC pending for ${batch.batch_number || batch.batch_code}`;
-      const detail = `${batch.product_name || 'Production batch'} - ${String(batch.status || 'planned').replace(/_/g, ' ')}`;
+      const title = batch.status === 'completed' ? `QC passed for ${window.edenUtils.escapeHTML(batch.batch_number || batch.batch_code)}` : `QC pending for ${window.edenUtils.escapeHTML(batch.batch_number || batch.batch_code)}`;
+      const detail = `${window.edenUtils.escapeHTML(batch.product_name || 'Production batch')} - ${String(batch.status || 'planned').replace(/_/g, ' ')}`;
       return `
         <label class="flex items-start gap-md p-sm hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer group">
           <input ${checked} class="mt-1 rounded border-outline text-primary focus:ring-primary" type="checkbox" disabled>
@@ -1704,7 +1714,7 @@
               <div class="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center ${low ? 'text-secondary' : 'text-primary'}">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">${icon}</span>
               </div>
-              <p class="font-label-md text-label-md">${material.name}</p>
+              <p class="font-label-md text-label-md">${window.edenUtils.escapeHTML(material.name)}</p>
             </div>
           </td>
           <td class="px-md py-md font-body-md text-body-md">${quantity.toLocaleString('en-KE')}</td>
@@ -1758,7 +1768,7 @@
           <div>
             <p class="font-label-sm text-label-sm text-primary uppercase tracking-wider">EKO Shoe Polish Production</p>
             <h3 class="font-headline-md text-headline-md text-on-surface">Input Readiness & Formula</h3>
-            <p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">Raw materials and packaging required to produce ${ekoProduct.sku || 'FIN-EKO-01'}. Inventory owns stock levels; Production owns conversion planning and batch readiness.</p>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">Raw materials and packaging required to produce ${window.edenUtils.escapeHTML(ekoProduct.sku || 'FIN-EKO-01')}. Inventory owns stock levels; Production owns conversion planning and batch readiness.</p>
           </div>
           <div class="flex flex-wrap gap-sm">
             <span class="px-sm py-xs rounded-full bg-primary-container text-on-primary-container font-label-sm text-label-sm">${Number(ekoProduct.quantity_kg || 0).toLocaleString('en-KE')} kg finished stock</span>
@@ -1776,7 +1786,7 @@
                 <div class="p-sm rounded-lg bg-surface-container-low border border-outline-variant">
                   <div class="flex items-start justify-between gap-sm">
                     <div>
-                      <p class="font-label-md text-label-md text-on-surface">${item.material_name}</p>
+                      <p class="font-label-md text-label-md text-on-surface">${window.edenUtils.escapeHTML(item.material_name)}</p>
                       <p class="font-body-sm text-body-sm text-on-surface-variant">${Number(item.kg_per_kg || 0).toLocaleString('en-KE')} kg per kg output</p>
                     </div>
                     <span class="material-symbols-outlined ${low ? 'text-error' : 'text-primary'}">${low ? 'warning' : 'check_circle'}</span>
@@ -1791,9 +1801,9 @@
           </div>
           <div class="p-md rounded-xl bg-primary-container/10 border border-primary-container/20">
             <h4 class="font-headline-sm text-headline-sm text-on-surface">Batch Planning</h4>
-            <p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Constraint: ${limiting?.material_name || 'Not enough recipe data'} limits the next run.</p>
+            <p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Constraint: ${window.edenUtils.escapeHTML(limiting?.material_name || 'Not enough recipe data')} limits the next run.</p>
             <dl class="mt-md space-y-sm">
-              <div class="flex justify-between gap-md"><dt class="font-label-sm text-label-sm text-on-surface-variant">SKU</dt><dd class="font-label-md text-label-md">${ekoProduct.sku || 'FIN-EKO-01'}</dd></div>
+              <div class="flex justify-between gap-md"><dt class="font-label-sm text-label-sm text-on-surface-variant">SKU</dt><dd class="font-label-md text-label-md">${window.edenUtils.escapeHTML(ekoProduct.sku || 'FIN-EKO-01')}</dd></div>
               <div class="flex justify-between gap-md"><dt class="font-label-sm text-label-sm text-on-surface-variant">Unit Price</dt><dd class="font-label-md text-label-md">KES ${Number(ekoProduct.unit_price || 0).toLocaleString('en-KE')}</dd></div>
               <div class="flex justify-between gap-md"><dt class="font-label-sm text-label-sm text-on-surface-variant">Inputs Tracked</dt><dd class="font-label-md text-label-md">${recipe.length}</dd></div>
             </dl>
@@ -1998,15 +2008,15 @@
       const dot = status === 'processing' ? 'bg-secondary' : status === 'in_transit' ? 'bg-tertiary' : 'bg-primary';
       return `
         <tr class="${index % 2 ? 'bg-surface-container-low' : ''} hover:bg-surface-container-high transition-colors cursor-pointer" data-batch-id="${batch.id}">
-          <td class="px-lg py-md font-body-md text-body-md font-bold">#${String(batch.id || batch.batch_code || 'BATCH').toUpperCase()}</td>
+          <td class="px-lg py-md font-body-md text-body-md font-bold">#${window.edenUtils.escapeHTML(String(batch.id || batch.batch_code || 'BATCH').toUpperCase())}</td>
           <td class="px-lg py-md">
             <div class="flex items-center gap-xs">
               <span class="w-2 h-2 rounded-full ${dot}"></span>
-              <span class="font-body-md text-body-md">${batch.material_name || batch.product_name || 'Unassigned material'}</span>
+              <span class="font-body-md text-body-md">${window.edenUtils.escapeHTML(batch.material_name || batch.product_name || 'Unassigned material')}</span>
             </div>
           </td>
           <td class="px-lg py-md font-body-md text-body-md">${Number(batch.weight_kg || batch.raw_material_used_kg || 0).toLocaleString('en-KE')} kg</td>
-          <td class="px-lg py-md font-body-md text-body-md">${batch.supplier_name || 'Internal transfer'}</td>
+          <td class="px-lg py-md font-body-md text-body-md">${window.edenUtils.escapeHTML(batch.supplier_name || 'Internal transfer')}</td>
           <td class="px-lg py-md">${statusBadge(status)}</td>
         </tr>
       `;
@@ -2058,8 +2068,8 @@
             <img alt="${supplier.name}" class="w-full h-full object-cover" src="${image}">
           </div>
           <div class="flex-1 min-w-0">
-            <p class="font-label-md text-label-md text-on-surface truncate">${supplier.name}</p>
-            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Primary: ${supplier.material_type || 'Mixed supply'}</p>
+            <p class="font-label-md text-label-md text-on-surface truncate">${window.edenUtils.escapeHTML(supplier.name)}</p>
+            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Primary: ${window.edenUtils.escapeHTML(supplier.material_type || 'Mixed supply')}</p>
           </div>
           <div class="flex flex-col items-end">
             <span class="font-label-sm text-label-sm ${textClass}">${label}</span>
@@ -2099,7 +2109,7 @@
     const material = ranked[0];
     if (!material) return;
     const supplier = suppliers.find(item => item.id === material.supplier_id);
-    copy.innerHTML = `Based on current production speed, <span class="font-bold">${material.name}</span> inventory will reach critical levels in <span class="font-bold">${material.daysRemaining} days</span>. Schedule a batch from ${supplier?.name || material.supplier_name || 'the preferred supplier'} before the next production run.`;
+    copy.innerHTML = `Based on current production speed, <span class="font-bold">${escapeHTML(material.name)}</span> inventory will reach critical levels in <span class="font-bold">${material.daysRemaining} days</span>. Schedule a batch from ${escapeHTML(supplier?.name || material.supplier_name || 'the preferred supplier')} before the next production run.`;
   }
 
   function showInventoryBatchModal() {
@@ -2112,7 +2122,7 @@
           <label class="block">
             <span class="font-label-sm text-label-sm text-on-surface-variant">Material</span>
             <select name="material_id" required class="mt-xs w-full rounded-lg border-outline-variant bg-surface-container-lowest">
-              ${materials.map(material => `<option value="${material.id}">${material.name}</option>`).join('')}
+              ${materials.map(material => `<option value="${escapeHTML(material.id)}">${escapeHTML(material.name)}</option>`).join('')}
             </select>
           </label>
           <label class="block">
@@ -2122,7 +2132,7 @@
           <label class="block">
             <span class="font-label-sm text-label-sm text-on-surface-variant">Supplier</span>
             <select name="supplier_id" class="mt-xs w-full rounded-lg border-outline-variant bg-surface-container-lowest">
-              ${suppliers.map(supplier => `<option value="${supplier.id}">${supplier.name}</option>`).join('')}
+              ${suppliers.map(supplier => `<option value="${escapeHTML(supplier.id)}">${escapeHTML(supplier.name)}</option>`).join('')}
             </select>
           </label>
           <label class="block">
@@ -2210,8 +2220,8 @@
       <dl class="divide-y divide-outline-variant">
         ${rows.map(([label, value]) => `
           <div class="py-sm flex justify-between gap-md">
-            <dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${label}</dt>
-            <dd class="font-body-md text-body-md text-on-surface text-right">${value}</dd>
+            <dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${escapeHTML(label)}</dt>
+            <dd class="font-body-md text-body-md text-on-surface text-right">${escapeHTML(value)}</dd>
           </div>
         `).join('')}
       </dl>
@@ -2228,8 +2238,8 @@
       <div class="w-full ${maxWidthClass} max-h-[88vh] overflow-y-auto bg-surface-container-lowest border border-outline-variant shadow-2xl rounded-xl p-lg transform transition-all scale-95 opacity-0" data-modal-card>
         <div class="flex items-start justify-between gap-md mb-md">
           <div>
-            <p class="font-label-sm text-label-sm text-primary uppercase">${eyebrow}</p>
-            <h3 class="font-headline-md text-headline-md text-on-surface">${title}</h3>
+            <p class="font-label-sm text-label-sm text-primary uppercase">${escapeHTML(eyebrow)}</p>
+            <h3 class="font-headline-md text-headline-md text-on-surface">${escapeHTML(title)}</h3>
           </div>
           <button type="button" data-modal-close class="material-symbols-outlined p-xs rounded-full hover:bg-surface-container-high">close</button>
         </div>

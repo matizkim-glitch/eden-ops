@@ -6,6 +6,16 @@
   window.edenPageControllers['production_monitoring.html'] = bindProductionPage;
   window.edenPageControllers['production_quality_control.html'] = bindProductionPage;
 
+  const escapeHTML = value => window.edenUtils?.escapeHTML
+    ? window.edenUtils.escapeHTML(value)
+    : String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
+
   async function bindProductionPage() {
     if (!window.productionModule) return;
     bindProductionActions();
@@ -1558,19 +1568,19 @@
       ${qc.inspection_date ? `
         <div class="mt-md p-sm rounded-lg ${qc.passed ? 'bg-primary/10' : 'bg-error-container/20'} border border-outline-variant">
           <p class="font-label-sm text-label-sm text-on-surface-variant uppercase">QC Result</p>
-          <p class="font-label-md text-label-md">${qc.passed ? 'Passed' : 'Rejected'} - Grade ${qc.grade || 'Pending'} - ${qc.inspector_name || 'QC Inspector'}</p>
-          <p class="font-body-sm text-body-sm text-on-surface-variant">${qc.inspection_date} - Defects ${Number(qc.defects_found || 0)} / Sample ${Number(qc.sample_size || 0)} - ${qc.notes || 'No notes'}</p>
+          <p class="font-label-md text-label-md">${qc.passed ? 'Passed' : 'Rejected'} - Grade ${escapeHTML(qc.grade || 'Pending')} - ${escapeHTML(qc.inspector_name || 'QC Inspector')}</p>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">${escapeHTML(qc.inspection_date)} - Defects ${Number(qc.defects_found || 0)} / Sample ${Number(qc.sample_size || 0)} - ${escapeHTML(qc.notes || 'No notes')}</p>
         </div>
       ` : ''}
-      ${cycle.production_notes ? `<div class="mt-md p-sm rounded-lg bg-surface-container-low"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Production Notes</p><p class="font-body-sm text-body-sm text-on-surface-variant">${cycle.production_notes}</p></div>` : ''}
-      ${cycle.rework_notes ? `<div class="mt-md p-sm rounded-lg bg-error-container/20"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Rework / Hold Plan</p><p class="font-body-sm text-body-sm text-on-surface-variant">${formatLabel(cycle.rework_decision || 'review')} - ${cycle.rework_notes}</p></div>` : ''}
+      ${cycle.production_notes ? `<div class="mt-md p-sm rounded-lg bg-surface-container-low"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Production Notes</p><p class="font-body-sm text-body-sm text-on-surface-variant">${escapeHTML(cycle.production_notes)}</p></div>` : ''}
+      ${cycle.rework_notes ? `<div class="mt-md p-sm rounded-lg bg-error-container/20"><p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Rework / Hold Plan</p><p class="font-body-sm text-body-sm text-on-surface-variant">${formatLabel(cycle.rework_decision || 'review')} - ${escapeHTML(cycle.rework_notes)}</p></div>` : ''}
       <div class="mt-md">
         <p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-sm">Required Materials</p>
-        <div class="space-y-xs">${(cycle.requirements?.length ? cycle.requirements : request?.requirements || []).map(item => `<div class="flex justify-between gap-md text-body-sm"><span>${item.material_name}</span><strong>${Number(item.required_kg || 0).toLocaleString('en-KE')} kg</strong></div>`).join('') || 'No material requirements recorded.'}</div>
+        <div class="space-y-xs">${(cycle.requirements?.length ? cycle.requirements : request?.requirements || []).map(item => `<div class="flex justify-between gap-md text-body-sm"><span>${escapeHTML(item.material_name)}</span><strong>${Number(item.required_kg || 0).toLocaleString('en-KE')} kg</strong></div>`).join('') || 'No material requirements recorded.'}</div>
       </div>
       <div class="mt-md">
         <p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-sm">Timeline</p>
-        <div class="space-y-xs">${events.map(event => `<div class="p-xs rounded-lg bg-surface-container-low text-body-sm"><strong>${formatLabel(event.type)}</strong> - ${event.message}<br><span class="text-on-surface-variant">${window.edenUtils?.formatDate(event.created_at) || event.created_at}</span></div>`).join('') || '<p class="text-body-sm text-on-surface-variant">No timeline events recorded yet.</p>'}</div>
+        <div class="space-y-xs">${events.map(event => `<div class="p-xs rounded-lg bg-surface-container-low text-body-sm"><strong>${formatLabel(event.type)}</strong> - ${escapeHTML(event.message)}<br><span class="text-on-surface-variant">${escapeHTML(window.edenUtils?.formatDate(event.created_at) || event.created_at)}</span></div>`).join('') || '<p class="text-body-sm text-on-surface-variant">No timeline events recorded yet.</p>'}</div>
       </div>
       <div class="flex justify-end pt-md"><button type="button" data-modal-close class="px-md py-sm bg-primary text-on-primary rounded-full font-label-md text-label-md">Done</button></div>
     `);
@@ -1680,14 +1690,14 @@
         </dl>
         <div class="p-sm rounded-lg bg-surface-container-low border border-outline-variant">
           <p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Action</p>
-          <p class="font-body-md text-body-md text-on-surface">${type === 'demand' ? demandSummary(item) : item.description}</p>
+          <p class="font-body-md text-body-md text-on-surface">${escapeHTML(type === 'demand' ? demandSummary(item) : item.description)}</p>
         </div>
         ${lines.length ? `
           <div class="space-y-sm">
             <p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Products needed</p>
             ${lines.map(line => `
               <div class="p-sm rounded-lg border border-outline-variant bg-surface-container-low flex items-center justify-between gap-md">
-                <div><p class="font-label-md text-label-md">${line.product_name}</p><p class="font-body-sm text-body-sm text-on-surface-variant">Requested ${Number(line.requested_kg || 0).toLocaleString('en-KE')} kg - Available ${Number(line.available_kg || 0).toLocaleString('en-KE')} kg</p></div>
+                <div><p class="font-label-md text-label-md">${escapeHTML(line.product_name)}</p><p class="font-body-sm text-body-sm text-on-surface-variant">Requested ${Number(line.requested_kg || 0).toLocaleString('en-KE')} kg - Available ${Number(line.available_kg || 0).toLocaleString('en-KE')} kg</p></div>
                 <span class="font-label-md text-label-md text-error">${Number(line.shortage_kg || 0).toLocaleString('en-KE')} kg short</span>
               </div>
             `).join('')}
@@ -1786,7 +1796,7 @@
     return `
       <button type="button" data-inbox-open="${type}:${id}" class="w-full text-left p-sm rounded-lg bg-surface-container-low border border-outline-variant hover:border-primary transition-all">
         <div class="flex items-start justify-between gap-md">
-          <div class="min-w-0"><p class="font-label-md text-label-md text-on-surface truncate">${title}</p><p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">${description}</p></div>
+          <div class="min-w-0"><p class="font-label-md text-label-md text-on-surface truncate">${escapeHTML(title)}</p><p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">${escapeHTML(description)}</p></div>
           ${statusBadge(status || 'open')}
         </div>
       </button>
@@ -1794,7 +1804,7 @@
   }
 
   function detailCell(label, value) {
-    return `<div class="p-sm rounded-lg bg-surface-container-low border border-outline-variant"><dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${label}</dt><dd class="font-body-md text-body-md text-on-surface">${value || 'Not captured'}</dd></div>`;
+    return `<div class="p-sm rounded-lg bg-surface-container-low border border-outline-variant"><dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${escapeHTML(label)}</dt><dd class="font-body-md text-body-md text-on-surface">${escapeHTML(value || 'Not captured')}</dd></div>`;
   }
 
   function compactInboxText(value) {
@@ -1900,7 +1910,7 @@
     overlay.innerHTML = `
       <div class="w-full max-w-2xl max-h-[88vh] overflow-y-auto bg-surface-container-lowest border border-outline-variant shadow-2xl rounded-xl p-lg transform transition-all scale-95 opacity-0" data-modal-card>
         <div class="flex items-start justify-between gap-md mb-md">
-          <div><p class="font-label-sm text-label-sm text-primary uppercase">Production Control</p><h3 class="font-headline-md text-headline-md text-on-surface">${title}</h3></div>
+          <div><p class="font-label-sm text-label-sm text-primary uppercase">Production Control</p><h3 class="font-headline-md text-headline-md text-on-surface">${escapeHTML(title)}</h3></div>
           <button type="button" data-modal-close class="material-symbols-outlined p-xs rounded-full hover:bg-surface-container-high">close</button>
         </div>
         ${bodyHtml}
@@ -1921,9 +1931,9 @@
   function selectField(name, label, options, selected = '') {
     return `
       <label class="block">
-        <span class="font-label-sm text-label-sm text-on-surface-variant">${label}</span>
-        <select name="${name}" class="mt-xs w-full rounded-lg border-outline-variant bg-surface-container-lowest">
-          ${options.map(([value, text]) => `<option value="${value}" ${String(value) === String(selected) ? 'selected' : ''}>${text}</option>`).join('')}
+        <span class="font-label-sm text-label-sm text-on-surface-variant">${escapeHTML(label)}</span>
+        <select name="${escapeHTML(name)}" class="mt-xs w-full rounded-lg border-outline-variant bg-surface-container-lowest">
+          ${options.map(([value, text]) => `<option value="${escapeHTML(value)}" ${String(value) === String(selected) ? 'selected' : ''}>${escapeHTML(text)}</option>`).join('')}
         </select>
       </label>
     `;
@@ -1968,8 +1978,8 @@
   function detailRows(rows) {
     return rows.map(([label, value]) => `
       <div class="py-sm flex justify-between gap-md">
-        <dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${label}</dt>
-        <dd class="font-body-md text-body-md text-on-surface text-right">${value}</dd>
+        <dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${escapeHTML(label)}</dt>
+        <dd class="font-body-md text-body-md text-on-surface text-right">${escapeHTML(value)}</dd>
       </div>
     `).join('');
   }

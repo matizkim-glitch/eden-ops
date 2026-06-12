@@ -1,6 +1,18 @@
 {
+  "name": "eden-recyclers-bos",
+  "version": "1.0.0",
+  "description": "Eden Recyclers Business Operations System",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
+    "start": "node dev-server.js",
     "test": "node tests/regression.test.js && node tests/production-validation.test.js && node smoke-test.js",
     "test:production-validation": "node tests/production-validation.test.js"
+  },
+  "devDependencies": {
+    "docx": "^9.7.1"
   }
 }

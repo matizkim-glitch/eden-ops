@@ -16,12 +16,14 @@ coverage/
 .env.*
 !.env.example
 *.local
+js/env.js
 
 # Logs and temporary files
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+~$*.docx
 tmp/
 temp/
 

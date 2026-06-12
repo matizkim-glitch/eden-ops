@@ -9,23 +9,30 @@
     'production@eden.com': { role: 'production', fullName: 'Dan Production', id: 'mock-uuid-production' },
     'sales@eden.com': { role: 'sales', fullName: 'Emily Sales', id: 'mock-uuid-sales' },
     'hr@eden.com': { role: 'hr', fullName: 'Frank HR', id: 'mock-uuid-hr' },
-    'finance@eden.com': { role: 'finance', fullName: 'Grace Finance', id: 'mock-uuid-finance' }
+    'finance@eden.com': { role: 'finance', fullName: 'Grace Finance', id: 'mock-uuid-finance' },
+    'inventory@eden.com': { role: 'inventory', fullName: 'Ivy Inventory', id: 'mock-uuid-inventory' },
+    'procurement@eden.com': { role: 'procurement', fullName: 'Pete Procurement', id: 'mock-uuid-procurement' },
+    'operations@eden.com': { role: 'operations', fullName: 'Oliver Operations', id: 'mock-uuid-operations' }
   };
 
   const authManager = {
     isMockMode: function() {
-      return !!window.EDEN_ALLOW_MOCK_AUTH && (!window.supabaseClient || window.SUPABASE_ANON_KEY === 'your-anon-key' || window.SUPABASE_URL.includes('your-project'));
+      const isLocal = ['127.0.0.1', 'localhost'].includes(window.location.hostname);
+      return !!window.EDEN_ALLOW_MOCK_AUTH && isLocal && !window.EDEN_CONFIG_READY;
     },
 
     login: async function(email, password) {
       if (this.isMockMode()) {
-        console.log('Running in Mock Auth Mode');
+        if (window.EDEN_DEBUG) console.info('Running in Mock Auth Mode');
         const user = MOCK_USERS[email.toLowerCase()];
         if (user && password === 'password') {
           localStorage.setItem('eden_user_session', JSON.stringify({ email, ...user }));
           localStorage.setItem('eden_user_role', user.role);
           localStorage.setItem('eden_user_name', user.fullName);
           localStorage.setItem('eden_user_id', user.id);
+          if (window.appState) {
+            window.appState.user = { id: user.id, name: user.fullName, role: user.role, isLoggedIn: true };
+          }
           return true;
         }
         return false;
@@ -49,9 +56,12 @@
         localStorage.setItem('eden_user_role', profile.role);
         localStorage.setItem('eden_user_name', profile.full_name);
         localStorage.setItem('eden_user_id', data.user.id);
+        if (window.appState) {
+          window.appState.user = { id: data.user.id, name: profile.full_name, role: profile.role, isLoggedIn: true };
+        }
         return true;
       } catch (err) {
-        console.error('Supabase Login Error:', err.message);
+        if (window.EDEN_DEBUG) console.error('Supabase Login Error:', err.message);
         return false;
       }
     },
@@ -59,6 +69,14 @@
     refreshSession: async function() {
       if (this.isMockMode()) {
         const user = this.getCurrentUser();
+        if (user && window.appState) {
+          window.appState.user = {
+            id: user.id,
+            name: user.fullName || user.name,
+            role: user.role,
+            isLoggedIn: true
+          };
+        }
         return !!user;
       }
       if (!window.supabaseClient) return false;
@@ -95,7 +113,7 @@
         try {
           await window.supabaseClient.auth.signOut();
         } catch (err) {
-          console.error('Supabase SignOut Error:', err);
+          if (window.EDEN_DEBUG) console.error('Supabase SignOut Error:', err);
         }
       }
       this.clearLocalSession();
@@ -115,17 +133,17 @@
 
     forgotPassword: async function(email) {
       if (this.isMockMode()) {
-        console.log(`Mock reset password for ${email}`);
+        if (window.EDEN_DEBUG) console.info('Mock reset password requested.');
         return true;
       }
       try {
         const { error } = await window.supabaseClient.auth.resetPasswordForEmail(email, {
-          redirectTo: window.location.origin + '/reset-password.html'
+          redirectTo: `${window.SUPABASE_REDIRECT_URL || window.location.origin}/reset-password.html`
         });
         if (error) throw error;
         return true;
       } catch (err) {
-        console.error('Reset Password Error:', err);
+        if (window.EDEN_DEBUG) console.error('Reset Password Error:', err);
         return false;
       }
     },
@@ -134,6 +152,7 @@
       switch (role) {
         case 'admin':
         case 'manager':
+        case 'operations':
           return 'operations_overview.html';
         case 'collector':
           return 'waste_collection.html';
@@ -145,6 +164,9 @@
           return 'hr_staffing.html';
         case 'finance':
           return 'finance_overview.html';
+        case 'inventory':
+        case 'procurement':
+          return 'supplier_inventory.html';
         default:
           return 'operations_overview.html';
       }

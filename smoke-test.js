@@ -35,11 +35,10 @@ const context = {
     removeItem: key => storage.delete(key)
   },
   window: {
-    location: { pathname: '/operations_overview.html', href: '' },
+    location: { hostname: '127.0.0.1', origin: 'http://127.0.0.1:8000', pathname: '/operations_overview.html', href: '' },
     history: { length: 1, back() {} },
     addEventListener: (event, cb) => { listeners[event] = cb; },
-    SUPABASE_URL: 'https://your-project.supabase.co',
-    SUPABASE_ANON_KEY: 'your-anon-key'
+    ENV: {}
   },
   document: {
     body: noopElement,

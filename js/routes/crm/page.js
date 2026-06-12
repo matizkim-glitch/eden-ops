@@ -5,6 +5,16 @@
   window.edenPageControllers = window.edenPageControllers || {};
   window.edenPageControllers['customer_crm.html'] = bindCrmPage;
 
+  const escapeHTML = value => window.edenUtils?.escapeHTML
+    ? window.edenUtils.escapeHTML(value)
+    : String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
+
   async function bindCrmPage() {
     if (!window.salesModule) return;
     bindHeaderActions();
@@ -141,15 +151,15 @@
       <tr data-crm-customer="${account.id}" class="hover:bg-surface-container-low transition-colors">
         <td class="px-lg py-4">
           <div class="flex items-center gap-md">
-            <div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold">${initials(account.company_name)}</div>
+            <div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold">${escapeHTML(initials(account.company_name))}</div>
             <div>
-              <p class="font-headline-sm text-headline-sm text-on-surface">${account.company_name}</p>
-              <p class="text-body-sm text-body-sm text-on-surface-variant">${account.id.toUpperCase()} • ${account.contact_name}</p>
+              <p class="font-headline-sm text-headline-sm text-on-surface">${escapeHTML(account.company_name)}</p>
+              <p class="text-body-sm text-body-sm text-on-surface-variant">${escapeHTML(String(account.id || '').toUpperCase())} • ${escapeHTML(account.contact_name)}</p>
             </div>
           </div>
         </td>
         <td class="px-lg py-4"><span class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-label-sm font-label-sm">${formatStatus(account.category)}</span></td>
-        <td class="px-lg py-4 font-body-md text-body-md">${account.region}</td>
+        <td class="px-lg py-4 font-body-md text-body-md">${escapeHTML(account.region)}</td>
         <td class="px-lg py-4">${riskBadge(account.risk)}</td>
         <td class="px-lg py-4 font-headline-sm text-headline-sm ${account.outstanding ? 'text-error' : 'text-primary'}">${money(account.outstanding)}</td>
         <td class="px-lg py-4 text-body-md text-body-md">${formatDate(account.lastActivity)}</td>
@@ -184,7 +194,7 @@
       <iframe title="CRM customer network map" class="w-full h-full border-0" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=36.70%2C-1.36%2C36.94%2C-1.18&layer=mapnik&marker=-1.286389%2C36.817223"></iframe>
       <div class="absolute inset-0 pointer-events-none">
         ${accounts.slice(0, 5).map((account, index) => `
-          <button type="button" data-map-account="${account.id}" class="pointer-events-auto absolute w-4 h-4 rounded-full ${account.risk === 'healthy' ? 'bg-primary' : 'bg-error'} shadow-lg ring-4 ring-white/70 animate-pulse" style="left:${18 + index * 15}%; top:${32 + (index % 3) * 17}%;" title="${account.company_name}"></button>
+          <button type="button" data-map-account="${escapeHTML(account.id)}" class="pointer-events-auto absolute w-4 h-4 rounded-full ${account.risk === 'healthy' ? 'bg-primary' : 'bg-error'} shadow-lg ring-4 ring-white/70 animate-pulse" style="left:${18 + index * 15}%; top:${32 + (index % 3) * 17}%;" title="${escapeHTML(account.company_name)}"></button>
         `).join('')}
       </div>
       <div class="absolute bottom-md left-md right-md bg-white/95 backdrop-blur p-md rounded-xl shadow-xl border border-primary/20">
@@ -215,7 +225,7 @@
         </div>
         <div class="flex-1 min-w-0">
           <p class="font-label-md text-label-md ${account.risk === 'critical' ? 'text-error' : 'text-secondary'} uppercase">${account.risk === 'critical' ? 'Urgent Call Required' : 'Payment Follow-Up'}</p>
-          <p class="font-headline-sm text-headline-sm text-on-surface truncate">${account.company_name}</p>
+          <p class="font-headline-sm text-headline-sm text-on-surface truncate">${escapeHTML(account.company_name)}</p>
           <p class="text-body-sm text-body-sm text-on-surface-variant">Outstanding: ${money(account.outstanding)}</p>
         </div>
         <span class="text-primary material-symbols-outlined">call</span>
@@ -252,7 +262,7 @@
           ${highValue.map(account => `
             <button type="button" data-crm-customer-card="${account.id}" class="w-full text-left p-sm rounded-lg bg-surface-container-low border border-outline-variant flex items-center justify-between gap-md">
               <div class="min-w-0">
-                <p class="font-label-md text-label-md text-on-surface truncate">${account.company_name}</p>
+                <p class="font-label-md text-label-md text-on-surface truncate">${escapeHTML(account.company_name)}</p>
                 <p class="font-body-sm text-body-sm text-on-surface-variant truncate">${formatStatus(account.category)} • ${account.orderCount} orders</p>
               </div>
               <div class="text-right shrink-0">
@@ -451,8 +461,8 @@
     createModal('Collections Dashboard', `
       <div data-sort-list class="space-y-sm">
         ${risky.map(account => `
-          <button type="button" data-collection-account="${account.id}" data-sort-name="${account.company_name}" data-sort-value="${account.outstanding}" data-sort-status="${account.risk}" class="w-full text-left p-sm rounded-lg bg-surface-container-low border border-outline-variant flex justify-between gap-md">
-            <div><p class="font-label-md text-label-md text-on-surface">${account.company_name}</p><p class="font-body-sm text-body-sm text-on-surface-variant">${account.contact_name} • ${account.contact_phone}</p></div>
+          <button type="button" data-collection-account="${escapeHTML(account.id)}" data-sort-name="${escapeHTML(account.company_name)}" data-sort-value="${account.outstanding}" data-sort-status="${escapeHTML(account.risk)}" class="w-full text-left p-sm rounded-lg bg-surface-container-low border border-outline-variant flex justify-between gap-md">
+            <div><p class="font-label-md text-label-md text-on-surface">${escapeHTML(account.company_name)}</p><p class="font-body-sm text-body-sm text-on-surface-variant">${escapeHTML(account.contact_name)} • ${escapeHTML(account.contact_phone)}</p></div>
             <div class="text-right"><p class="font-label-md text-label-md text-error">${money(account.outstanding)}</p>${riskBadge(account.risk)}</div>
           </button>
         `).join('') || '<div class="p-md rounded-lg border border-dashed border-outline text-on-surface-variant">No accounts need collection action.</div>'}
@@ -479,7 +489,7 @@
           <div class="space-y-sm">
             ${accounts.sort((a, b) => b.totalOrders - a.totalOrders).map(account => `
               <div>
-                <div class="flex items-center justify-between gap-md mb-xs"><span class="font-label-md text-label-md">${account.company_name}</span><span class="font-label-sm text-label-sm">${money(account.totalOrders)}</span></div>
+                <div class="flex items-center justify-between gap-md mb-xs"><span class="font-label-md text-label-md">${escapeHTML(account.company_name)}</span><span class="font-label-sm text-label-sm">${money(account.totalOrders)}</span></div>
                 <div class="h-3 rounded-full bg-surface-container-high overflow-hidden"><div class="h-full rounded-full bg-primary" style="width:${Math.max(4, Math.round((account.totalOrders / max) * 100))}%"></div></div>
               </div>
             `).join('')}
@@ -490,7 +500,7 @@
           <div class="mt-md space-y-sm">
             ${accounts.slice(0, 4).map(account => `
               <div class="p-sm rounded-lg bg-surface-container-lowest border border-outline-variant">
-                <p class="font-label-md text-label-md text-on-surface">${account.company_name}</p>
+                <p class="font-label-md text-label-md text-on-surface">${escapeHTML(account.company_name)}</p>
                 <p class="font-body-sm text-body-sm text-on-surface-variant">${account.risk === 'healthy' ? 'Upsell candidate' : 'Collection priority'} • ${Math.round((account.totalOrders / Math.max(total, 1)) * 100)}% value share</p>
               </div>
             `).join('')}
@@ -506,7 +516,7 @@
       <div class="space-y-sm">
         ${accounts.map(account => `
           <button type="button" data-opportunity-account="${account.id}" class="w-full text-left p-sm rounded-lg bg-surface-container-low border border-outline-variant flex justify-between gap-md">
-            <div><p class="font-label-md text-label-md text-on-surface">${account.company_name}</p><p class="font-body-sm text-body-sm text-on-surface-variant">Healthy credit • ${formatStatus(account.category)}</p></div>
+            <div><p class="font-label-md text-label-md text-on-surface">${escapeHTML(account.company_name)}</p><p class="font-body-sm text-body-sm text-on-surface-variant">Healthy credit • ${formatStatus(account.category)}</p></div>
             <span class="material-symbols-outlined text-primary">trending_up</span>
           </button>
         `).join('')}
@@ -544,8 +554,8 @@
           return `
             <button type="button" data-opportunity-account="${account.id}" class="w-full text-left p-sm rounded-lg bg-surface-container-low border border-outline-variant flex justify-between gap-md">
               <div class="min-w-0">
-                <p class="font-label-md text-label-md text-on-surface truncate">${account.company_name}</p>
-                <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Healthy credit - ${formatStatus(account.category)} - Suggested: ${recommendation?.name || 'No product in catalog'}</p>
+                <p class="font-label-md text-label-md text-on-surface truncate">${escapeHTML(account.company_name)}</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Healthy credit - ${formatStatus(account.category)} - Suggested: ${escapeHTML(recommendation?.name || 'No product in catalog')}</p>
               </div>
               <div class="text-right shrink-0">
                 <p class="font-label-md text-label-md ${Number(recommendation?.quantity_kg || 0) > 0 ? 'text-primary' : 'text-error'}">${Number(recommendation?.quantity_kg || 0).toLocaleString('en-KE')} kg</p>
@@ -791,8 +801,8 @@
       <div class="w-full ${maxWidthClass} max-h-[88vh] overflow-y-auto bg-surface-container-lowest border border-outline-variant shadow-2xl rounded-xl p-lg transform transition-all scale-95 opacity-0" data-modal-card>
         <div class="flex items-start justify-between gap-md mb-md">
           <div>
-            <p class="font-label-sm text-label-sm text-primary uppercase">${eyebrow}</p>
-            <h3 class="font-headline-md text-headline-md text-on-surface">${title}</h3>
+            <p class="font-label-sm text-label-sm text-primary uppercase">${escapeHTML(eyebrow)}</p>
+            <h3 class="font-headline-md text-headline-md text-on-surface">${escapeHTML(title)}</h3>
           </div>
           <button type="button" data-modal-close class="material-symbols-outlined p-xs rounded-full hover:bg-surface-container-high">close</button>
         </div>
@@ -818,7 +828,7 @@
   }
 
   function detailGrid(rows) {
-    return `<dl class="grid grid-cols-1 sm:grid-cols-2 gap-sm">${rows.map(([label, value]) => `<div class="p-sm rounded-lg bg-surface-container-low border border-outline-variant"><dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${label}</dt><dd class="font-body-md text-body-md text-on-surface">${value || 'Not captured'}</dd></div>`).join('')}</dl>`;
+    return `<dl class="grid grid-cols-1 sm:grid-cols-2 gap-sm">${rows.map(([label, value]) => `<div class="p-sm rounded-lg bg-surface-container-low border border-outline-variant"><dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${escapeHTML(label)}</dt><dd class="font-body-md text-body-md text-on-surface">${escapeHTML(value || 'Not captured')}</dd></div>`).join('')}</dl>`;
   }
 
   function textField(name, label, placeholder, type = 'text') {
@@ -830,7 +840,7 @@
   }
 
   function selectField(name, label, options) {
-    return `<label class="block"><span class="font-label-sm text-label-sm text-on-surface-variant">${label}</span><select name="${name}" class="mt-xs w-full rounded-lg border-outline-variant bg-surface-container-lowest">${options.map(([value, text]) => `<option value="${value}">${text}</option>`).join('')}</select></label>`;
+    return `<label class="block"><span class="font-label-sm text-label-sm text-on-surface-variant">${escapeHTML(label)}</span><select name="${escapeHTML(name)}" class="mt-xs w-full rounded-lg border-outline-variant bg-surface-container-lowest">${options.map(([value, text]) => `<option value="${escapeHTML(value)}">${escapeHTML(text)}</option>`).join('')}</select></label>`;
   }
 
   function modalActions(label) {

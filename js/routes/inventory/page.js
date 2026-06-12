@@ -5,6 +5,16 @@
   window.edenPageControllers = window.edenPageControllers || {};
   window.edenPageControllers['supplier_inventory.html'] = bindInventoryPage;
 
+  const escapeHTML = value => window.edenUtils?.escapeHTML
+    ? window.edenUtils.escapeHTML(value)
+    : String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
+
   async function bindInventoryPage() {
     if (!window.inventoryModule) return;
     bindInventoryButtons();
@@ -178,7 +188,7 @@
             <div class="flex items-center justify-between gap-sm">
               <div class="min-w-0">
                 <p class="font-label-md text-label-md text-on-surface truncate">${item.title}</p>
-                <p class="font-body-sm text-body-sm text-on-surface-variant truncate">${compactInboxText(item.description)}</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant truncate">${escapeHTML(compactInboxText(item.description))}</p>
               </div>
               ${statusBadge(item.status || 'open')}
             </div>
@@ -294,15 +304,15 @@
             <div class="flex items-center gap-sm">
               <span class="material-symbols-outlined p-xs rounded-lg ${low ? 'bg-error-container text-error' : 'bg-primary-container text-on-primary-container'}">${rawMaterialIcon(material.category)}</span>
               <div>
-                <p class="font-label-md text-label-md text-on-surface">${material.name}</p>
-                <p class="font-body-sm text-body-sm text-on-surface-variant">${material.id}</p>
+                <p class="font-label-md text-label-md text-on-surface">${escapeHTML(material.name)}</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">${escapeHTML(material.id)}</p>
               </div>
             </div>
           </td>
           <td class="px-md py-md font-body-md text-body-md">${formatLabel(material.category || 'general')}</td>
           <td class="px-md py-md font-body-md text-body-md">${quantity.toLocaleString('en-KE')} kg</td>
           <td class="px-md py-md font-body-md text-body-md">${threshold.toLocaleString('en-KE')} kg</td>
-          <td class="px-md py-md font-body-md text-body-md">${supplier?.name || material.supplier_name || 'Not assigned'}</td>
+          <td class="px-md py-md font-body-md text-body-md">${escapeHTML(supplier?.name || material.supplier_name || 'Not assigned')}</td>
           <td class="px-md py-md font-body-md text-body-md">KES ${Number(material.unit_cost || 0).toLocaleString('en-KE')}</td>
           <td class="px-md py-md">${statusBadge(low ? 'low_stock' : 'in_stock')}</td>
         </tr>
@@ -435,10 +445,10 @@
       ][index % 3];
       return `
         <button type="button" class="glass-card p-md rounded-xl flex items-center gap-md hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left w-full" data-supplier-id="${supplier.id}">
-          <div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden shrink-0"><img alt="${supplier.name}" class="w-full h-full object-cover" src="${image}"></div>
+          <div class="w-12 h-12 rounded-lg bg-surface-container-high overflow-hidden shrink-0"><img alt="${escapeHTML(supplier.name)}" class="w-full h-full object-cover" src="${image}"></div>
           <div class="flex-1 min-w-0">
-            <p class="font-label-md text-label-md text-on-surface truncate">${supplier.name}</p>
-            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">${supplier.material_type || 'Mixed supply'} • ${supplier.email || 'No email captured'}</p>
+            <p class="font-label-md text-label-md text-on-surface truncate">${escapeHTML(supplier.name)}</p>
+            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">${escapeHTML(supplier.material_type || 'Mixed supply')} • ${escapeHTML(supplier.email || 'No email captured')}</p>
           </div>
           <div class="flex flex-col items-end"><span class="font-label-sm text-label-sm ${textClass}">${label}</span><span class="material-symbols-outlined text-sm ${textClass}">${icon}</span></div>
         </button>
@@ -464,7 +474,7 @@
     const material = ranked[0];
     const supplier = suppliers.find(item => item.id === material?.supplier_id);
     copy.innerHTML = material
-      ? `Based on current production speed, <span class="font-bold">${material.name}</span> inventory will reach critical levels in <span class="font-bold">${material.daysRemaining} days</span>. Preferred reorder: <span class="font-bold">${Number(material.reorder_quantity_kg || material.reorder_threshold_kg || 0).toLocaleString('en-KE')} kg</span> from ${supplier?.name || material.supplier_name || 'the preferred supplier'}.`
+      ? `Based on current production speed, <span class="font-bold">${escapeHTML(material.name)}</span> inventory will reach critical levels in <span class="font-bold">${material.daysRemaining} days</span>. Preferred reorder: <span class="font-bold">${Number(material.reorder_quantity_kg || material.reorder_threshold_kg || 0).toLocaleString('en-KE')} kg</span> from ${escapeHTML(supplier?.name || material.supplier_name || 'the preferred supplier')}.`
       : 'Inventory forecasting will appear once raw materials are configured.';
   }
 
@@ -918,7 +928,7 @@
         </dl>
         <div class="p-sm rounded-lg bg-surface-container-low border border-outline-variant">
           <p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Inventory action</p>
-          <p class="font-body-md text-body-md text-on-surface">${type === 'demand' ? demandSummary(item) : item.description}</p>
+          <p class="font-body-md text-body-md text-on-surface">${escapeHTML(type === 'demand' ? demandSummary(item) : item.description)}</p>
         </div>
         ${lines.length ? `
           <div class="space-y-sm">
@@ -926,7 +936,7 @@
             ${lines.map(line => `
               <div class="p-sm rounded-lg border border-outline-variant bg-surface-container-low space-y-sm">
                 <div class="flex items-center justify-between gap-md">
-                  <div><p class="font-label-md text-label-md">${line.product_name}</p><p class="font-body-sm text-body-sm text-on-surface-variant">Requested ${Number(line.requested_kg || 0).toLocaleString('en-KE')} kg - Available ${currentProductQuantity(products, line.product_id, line.available_kg).toLocaleString('en-KE')} kg - Reserved ${Number(line.reserved_kg || 0).toLocaleString('en-KE')} kg</p></div>
+                  <div><p class="font-label-md text-label-md">${escapeHTML(line.product_name)}</p><p class="font-body-sm text-body-sm text-on-surface-variant">Requested ${Number(line.requested_kg || 0).toLocaleString('en-KE')} kg - Available ${currentProductQuantity(products, line.product_id, line.available_kg).toLocaleString('en-KE')} kg - Reserved ${Number(line.reserved_kg || 0).toLocaleString('en-KE')} kg</p></div>
                   <span class="font-label-md text-label-md text-error">${Math.max(0, Number(line.requested_kg || 0) - currentProductQuantity(products, line.product_id, line.available_kg) - Number(line.reserved_kg || 0)).toLocaleString('en-KE')} kg short</span>
                 </div>
                 <div class="flex flex-wrap gap-xs justify-end">
@@ -1180,7 +1190,7 @@
     return `
       <button type="button" data-inbox-open="${type}:${id}" class="w-full text-left p-sm rounded-lg bg-surface-container-low border border-outline-variant hover:border-primary transition-all">
         <div class="flex items-start justify-between gap-md">
-          <div class="min-w-0"><p class="font-label-md text-label-md text-on-surface truncate">${title}</p><p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">${description}</p></div>
+          <div class="min-w-0"><p class="font-label-md text-label-md text-on-surface truncate">${escapeHTML(title)}</p><p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">${escapeHTML(description)}</p></div>
           ${statusBadge(status || 'open')}
         </div>
       </button>
@@ -1338,7 +1348,7 @@
     overlay.innerHTML = `
       <div class="w-full max-w-lg bg-surface-container-lowest border border-outline-variant shadow-2xl rounded-xl p-lg transform transition-all scale-95 opacity-0" data-modal-card>
         <div class="flex items-start justify-between gap-md mb-md">
-          <div><p class="font-label-sm text-label-sm text-primary uppercase">Inventory Control</p><h3 class="font-headline-md text-headline-md text-on-surface">${title}</h3></div>
+          <div><p class="font-label-sm text-label-sm text-primary uppercase">Inventory Control</p><h3 class="font-headline-md text-headline-md text-on-surface">${escapeHTML(title)}</h3></div>
           <button type="button" data-modal-close class="material-symbols-outlined p-xs rounded-full hover:bg-surface-container-high">close</button>
         </div>
         ${bodyHtml}
@@ -1359,9 +1369,9 @@
   function selectField(name, label, options, selected = '') {
     return `
       <label class="block">
-        <span class="font-label-sm text-label-sm text-on-surface-variant">${label}</span>
-        <select name="${name}" class="mt-xs w-full rounded-lg border-outline-variant bg-surface-container-lowest">
-          ${options.map(([value, text]) => `<option value="${value}" ${String(value) === String(selected) ? 'selected' : ''}>${text}</option>`).join('')}
+        <span class="font-label-sm text-label-sm text-on-surface-variant">${escapeHTML(label)}</span>
+        <select name="${escapeHTML(name)}" class="mt-xs w-full rounded-lg border-outline-variant bg-surface-container-lowest">
+          ${options.map(([value, text]) => `<option value="${escapeHTML(value)}" ${String(value) === String(selected) ? 'selected' : ''}>${escapeHTML(text)}</option>`).join('')}
         </select>
       </label>
     `;
@@ -1397,8 +1407,8 @@
   function detailRows(rows) {
     return rows.map(([label, value]) => `
       <div class="py-sm flex justify-between gap-md">
-        <dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${label}</dt>
-        <dd class="font-body-md text-body-md text-on-surface text-right">${value}</dd>
+        <dt class="font-label-sm text-label-sm text-on-surface-variant uppercase">${escapeHTML(label)}</dt>
+        <dd class="font-body-md text-body-md text-on-surface text-right">${escapeHTML(value)}</dd>
       </div>
     `).join('');
   }

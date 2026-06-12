@@ -14,7 +14,7 @@ create extension if not exists "uuid-ossp";
 create table if not exists profiles (
   id uuid references auth.users on delete cascade primary key,
   full_name text not null,
-  role text not null check (role in ('admin','manager','collector','production','sales','hr','finance')),
+  role text not null check (role in ('admin','manager','collector','collection','production','sales','hr','finance','inventory','procurement','operations')),
   phone text,
   avatar_url text,
   created_at timestamptz default now()
@@ -55,6 +55,9 @@ create table if not exists suppliers (
   contact_phone text,
   email text,
   supplies text,
+  material_type text,
+  rating numeric(3,2),
+  status text default 'active' check (status in ('active','inactive','on_hold')),
   active boolean default true,
   created_at timestamptz default now()
 );
@@ -67,7 +70,9 @@ create table if not exists raw_materials (
   quantity_kg numeric(10,2) default 0,
   unit_cost numeric(10,2),
   reorder_threshold_kg numeric(10,2) default 50,
+  reorder_quantity_kg numeric(10,2) default 100,
   supplier_id uuid references suppliers(id) on delete set null,
+  preferred_supplier_id uuid references suppliers(id) on delete set null,
   last_updated timestamptz default now()
 );
 
@@ -77,6 +82,7 @@ create table if not exists finished_products (
   name text not null,
   sku text unique not null,
   quantity integer default 0,
+  quantity_kg numeric(12,2) default 0,
   unit_price numeric(10,2) not null,
   low_stock_threshold integer default 20,
   created_at timestamptz default now()
@@ -90,7 +96,12 @@ create table if not exists batches (
   raw_material_id uuid references raw_materials(id) on delete restrict,
   raw_material_used_kg numeric(10,2),
   units_produced integer,
-  status text check (status in ('planned','in_progress','qc_check','completed','rejected')) default 'planned',
+  status text check (status in ('materials_requested','materials_approved','materials_issued','in_progress','qc_pending','qc_passed','qc_failed','completed','rejected')) default 'materials_requested',
+  quality_grade text,
+  materials_requested_at timestamptz,
+  materials_approved_at timestamptz,
+  materials_issued_at timestamptz,
+  qc_completed_at timestamptz,
   started_at timestamptz,
   completed_at timestamptz,
   supervisor_id uuid references profiles(id) on delete set null,
@@ -139,6 +150,7 @@ create table if not exists orders (
   status text check (status in ('draft','confirmed','dispatched','delivered','invoiced','paid','overdue')) default 'draft',
   total_amount numeric(12,2),
   paid_amount numeric(12,2) default 0,
+  idempotency_key text,
   notes text,
   created_at timestamptz default now()
 );
@@ -178,6 +190,7 @@ create table if not exists payments (
   method text check (method in ('mpesa','bank_transfer','cash','cheque')),
   reference_number text,
   recorded_by uuid references profiles(id) on delete set null,
+  idempotency_key text,
   created_at timestamptz default now()
 );
 
@@ -257,6 +270,7 @@ create table if not exists stock_movements (
   source_id text not null,
   quantity_kg numeric(10,2) not null,
   movement_type text not null check (movement_type in ('raw_receipt','raw_issue','finished_receipt','finished_dispatch','adjustment')),
+  resulting_balance numeric(12,2),
   created_by uuid references profiles(id) on delete set null,
   created_at timestamptz default now(),
   unique (source_type, source_id, movement_type)

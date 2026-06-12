@@ -129,8 +129,14 @@ async function testFinishedStockUpdateWritesLedgerOnce() {
 
 function testLogoAssetExists() {
   const logo = path.join(root, 'assets', 'eden-recyclers-logo.jpg');
+  const icon192 = path.join(root, 'assets', 'icons', 'icon-192.png');
+  const icon512 = path.join(root, 'assets', 'icons', 'icon-512.png');
   assert(fs.existsSync(logo), 'real logo asset should exist');
   assert(fs.statSync(logo).size > 10000, 'real logo asset should not be an empty placeholder');
+  assert(fs.existsSync(icon192), 'PWA 192px icon should exist');
+  assert(fs.existsSync(icon512), 'PWA 512px icon should exist');
+  assert(fs.statSync(icon192).size > 1000, 'PWA 192px icon should not be empty');
+  assert(fs.statSync(icon512).size > 1000, 'PWA 512px icon should not be empty');
 }
 
 function testServiceWorkerDoesNotCacheHtmlShell() {
@@ -139,10 +145,37 @@ function testServiceWorkerDoesNotCacheHtmlShell() {
   assert(sw.includes('STATIC_ASSET_PATTERN'), 'service worker should limit runtime caching to static assets');
 }
 
+function testRuntimeConfigRequiresInjectedEnvironment() {
+  const config = fs.readFileSync(path.join(root, 'js', 'config.js'), 'utf8');
+  const auth = fs.readFileSync(path.join(root, 'js', 'auth.js'), 'utf8');
+  const supabaseClient = fs.readFileSync(path.join(root, 'js', 'supabase-client.js'), 'utf8');
+  [config, auth, supabaseClient].forEach(source => {
+    assert(!source.includes('your-project.supabase.co'), 'runtime source must not contain placeholder Supabase URL');
+    assert(!source.includes('your-anon-key'), 'runtime source must not contain placeholder Supabase anon key');
+  });
+  assert(config.includes('window.EDEN_CONFIG_READY'), 'config should expose explicit readiness flag');
+  assert(supabaseClient.includes('Supabase configuration is missing'), 'Supabase client should fail closed when production config is missing');
+}
+
+function testResetPasswordFlowExists() {
+  const resetPath = path.join(root, 'reset-password.html');
+  assert(fs.existsSync(resetPath), 'reset-password.html should exist');
+  const reset = fs.readFileSync(resetPath, 'utf8');
+  assert(reset.includes('auth.setSession'), 'reset page should hydrate Supabase session from reset token');
+  assert(reset.includes('auth.updateUser'), 'reset page should update the password');
+  const login = fs.readFileSync(path.join(root, 'login.html'), 'utf8');
+  assert(login.includes('eden_reset_cooldown_until'), 'forgot password should enforce a client-side cooldown');
+}
+
 function testSchemaHardeningExists() {
   const schema = fs.readFileSync(path.join(root, 'schema.sql'), 'utf8');
   assert(schema.includes('create table if not exists audit_logs'), 'schema should include audit_logs');
   assert(schema.includes('create table if not exists stock_movements'), 'schema should include stock movement ledger');
+  assert(schema.includes("'collection'"), 'profile role vocabulary should include collection role used by RLS');
+  assert(schema.includes("'materials_requested'"), 'baseline batches schema should use canonical production lifecycle states');
+  assert(schema.includes('quantity_kg numeric(12,2) default 0'), 'finished_products should include quantity_kg used by inventory and sales workflows');
+  assert(schema.includes('resulting_balance numeric(12,2)'), 'stock_movements should persist resulting ledger balance');
+  assert(schema.includes('idempotency_key text'), 'financial and sales writes should have idempotency keys in the baseline schema');
   assert(schema.includes('revoke update on profiles from authenticated'), 'profiles role update should not be broadly writable');
   assert(schema.includes('grant update (full_name, phone, avatar_url) on profiles to authenticated'), 'profile self-update should be limited to non-privileged columns');
   assert(!schema.includes("auth.role() = 'authenticated'"), 'baseline schema should not use broad authenticated RLS policies');
@@ -226,6 +259,58 @@ function testInventoryDemandStockActionsExist() {
   assert(inventoryRoute.includes("source_type: context.demandId ? 'sales_demand' : 'manual_adjustment'"), 'demand stock updates should post to the stock ledger with sales demand reference');
 }
 
+function testRouteUserDataXssSinksAreEscaped() {
+  const dangerous = `"><img src=x onerror=alert(1)><script>alert('x')</script>&`;
+  const escaped = dangerous.replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+  assert(!escaped.includes('<script>'), 'dangerous script tags should be escaped');
+  assert(!escaped.includes('<img'), 'dangerous image tags should be escaped');
+  assert(escaped.includes('&quot;&gt;&lt;img'), 'dangerous attribute/tag delimiters should be encoded');
+
+  const router = fs.readFileSync(path.join(root, 'js', 'router.js'), 'utf8');
+  const crmRoute = fs.readFileSync(path.join(root, 'js', 'routes', 'crm', 'page.js'), 'utf8');
+  const inventoryRoute = fs.readFileSync(path.join(root, 'js', 'routes', 'inventory', 'page.js'), 'utf8');
+  const productionRoute = fs.readFileSync(path.join(root, 'js', 'routes', 'production', 'page.js'), 'utf8');
+
+  [
+    'escapeHTML(s.name)',
+    'escapeHTML(material.name)',
+    'escapeHTML(supplier?.name || material.supplier_name',
+    'escapeHTML(title)',
+    'escapeHTML(value)'
+  ].forEach(marker => assert(router.includes(marker), `router critical render path should include ${marker}`));
+
+  [
+    'escapeHTML(account.company_name)',
+    'escapeHTML(account.contact_name)',
+    'escapeHTML(account.region)',
+    'escapeHTML(value || \'Not captured\')'
+  ].forEach(marker => assert(crmRoute.includes(marker), `CRM customer render path should include ${marker}`));
+
+  [
+    'escapeHTML(material.name)',
+    'escapeHTML(supplier.name)',
+    'escapeHTML(type === \'demand\' ? demandSummary(item) : item.description)',
+    'escapeHTML(line.product_name)',
+    'escapeHTML(title)',
+    'escapeHTML(description)'
+  ].forEach(marker => assert(inventoryRoute.includes(marker), `Inventory render path should include ${marker}`));
+
+  [
+    'escapeHTML(type === \'demand\' ? demandSummary(item) : item.description)',
+    'escapeHTML(line.product_name)',
+    'escapeHTML(title)',
+    'escapeHTML(description)',
+    'escapeHTML(event.message)',
+    'escapeHTML(value || \'Not captured\')'
+  ].forEach(marker => assert(productionRoute.includes(marker), `Production task/material render path should include ${marker}`));
+}
+
 (async () => {
   await testCollectionReceiveIsIdempotent();
   await testSalesPartialPaymentStaysPartial();
@@ -233,10 +318,13 @@ function testInventoryDemandStockActionsExist() {
   await testFinishedStockUpdateWritesLedgerOnce();
   testLogoAssetExists();
   testServiceWorkerDoesNotCacheHtmlShell();
+  testRuntimeConfigRequiresInjectedEnvironment();
+  testResetPasswordFlowExists();
   testSchemaHardeningExists();
   testBackendEnforcementMigrationExists();
   testComponentXssSinksAreHardened();
   testInventoryDemandStockActionsExist();
+  testRouteUserDataXssSinksAreEscaped();
   console.log('Regression tests passed');
 })().catch(error => {
   console.error(error);

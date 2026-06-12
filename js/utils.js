@@ -89,10 +89,8 @@
     },
 
     addToOfflineQueue: function(operation, table, payload) {
-      const queue = this.getOfflineQueue();
-      queue.push({ operation, table, payload, timestamp: new Date().getTime() });
-      localStorage.setItem('eden_offline_queue', JSON.stringify(queue));
-      this.showToast('Data saved locally (offline mode)', 'warning');
+      // Temporarily disabled due to syncing data integrity issues (DAT-07 stopgap)
+      this.showToast('Offline mode is currently active. Changes cannot be saved until you are online.', 'error');
     },
 
     clearOfflineQueue: function() {
