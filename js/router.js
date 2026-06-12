@@ -522,7 +522,7 @@
   }
 
   function edenLogoMarkup(linked = true) {
-    const img = '<img class="eden-logo-img" src="assets/eden-recyclers-logo.jpg" alt="Eden Recyclers">';
+    const img = '<img class="eden-logo-img" src="assets/eden-recyclers-logo.png" alt="Eden Recyclers">';
     if (!linked) return img;
     return `<a class="eden-logo-home inline-flex items-center" href="operations_overview.html" aria-label="Go to Operations Overview">${img}</a>`;
   }
