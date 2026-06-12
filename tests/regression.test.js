@@ -311,6 +311,45 @@ function testRouteUserDataXssSinksAreEscaped() {
   ].forEach(marker => assert(productionRoute.includes(marker), `Production task/material render path should include ${marker}`));
 }
 
+function testReactMigrationFoundationExists() {
+  const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+  assert(pkg.scripts['dev:react'], 'React Vite dev script should exist');
+  assert(pkg.scripts['build:react'], 'React Vite build script should exist');
+  assert(pkg.dependencies.react, 'React dependency should be installed');
+  assert(pkg.dependencies['@supabase/supabase-js'], 'React app should use npm Supabase client');
+  assert(pkg.devDependencies.vite, 'Vite dependency should be installed');
+  assert(pkg.devDependencies.tailwindcss, 'Tailwind should be installed through npm');
+
+  const app = fs.readFileSync(path.join(root, 'frontend', 'src', 'app', 'App.tsx'), 'utf8');
+  const modules = fs.readFileSync(path.join(root, 'frontend', 'src', 'app', 'modules.ts'), 'utf8');
+  const config = fs.readFileSync(path.join(root, 'frontend', 'src', 'lib', 'config.ts'), 'utf8');
+  const index = fs.readFileSync(path.join(root, 'frontend', 'index.html'), 'utf8');
+  const migrationPlan = fs.readFileSync(path.join(root, 'FRONTEND_MIGRATION_PLAN.md'), 'utf8');
+
+  [
+    'overview',
+    'collection',
+    'inventory',
+    'production',
+    'sales',
+    'crm',
+    'hr',
+    'finance',
+    'sustainability',
+    'facility',
+    'maintenance',
+    'infrastructure'
+  ].forEach(department => {
+    assert(modules.includes(`${department}: {`) || modules.includes(`id: '${department}'`), `React modules should include ${department}`);
+  });
+
+  assert(app.includes('Department Handoffs'), 'React shell should preserve handoff analysis surface');
+  assert(app.includes('Action Workflows'), 'React shell should preserve actionable workflow surface');
+  assert(config.includes('VITE_SUPABASE_URL'), 'React config should use Vite environment variables');
+  assert(!index.includes('cdn.tailwindcss.com'), 'React app must not use CDN Tailwind');
+  assert(migrationPlan.includes('Do not import `js/router.js` into React'), 'migration plan should prevent DOM-controller collisions');
+}
+
 (async () => {
   await testCollectionReceiveIsIdempotent();
   await testSalesPartialPaymentStaysPartial();
@@ -325,6 +364,7 @@ function testRouteUserDataXssSinksAreEscaped() {
   testComponentXssSinksAreHardened();
   testInventoryDemandStockActionsExist();
   testRouteUserDataXssSinksAreEscaped();
+  testReactMigrationFoundationExists();
   console.log('Regression tests passed');
 })().catch(error => {
   console.error(error);
